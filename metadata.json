@@ -1,0 +1,11 @@
+{
+	"name": "sensson-directadmin",
+	"version": "0.1.1",
+	"author": "sensson",
+	"license": "Licensed under (Apache 2.0)",
+	"summary": "A DirectAdmin management module",
+	"source": "https://github.com/sensson/sensson-directadmin",
+	"dependencies": [
+		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2" },
+	]
+}
