@@ -42,3 +42,9 @@ directadmin::user_ssl { 'domain.com': user => 'username', sslcert => '', sslkey 
 ```
 
 This can be used to manage SSL certificates for users. 
+
+```
+class { 'directadmin::modsecurity': 'modsecurity_version => '2.8.0', 'secauditlogtype' => 'Concurrent', 'secauditlog' => '', 'secauditlogstoragedir' => '', 'secruleengine' => 'On' }
+```
+
+BETA: This sets up mod_security on DirectAdmin servers.
