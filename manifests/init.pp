@@ -17,11 +17,6 @@ class directadmin {
 		}
 	}
 	
-	# Package: needed for mod_security
-	package { 'expat-devel':
-		ensure		=> installed,
-	}
-	
 	# Package: support for MySQL 5.5
 	package { 'libaio':
 		ensure		=> installed,

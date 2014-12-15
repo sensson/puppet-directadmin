@@ -39,6 +39,6 @@ class directadmin::custombuild::options(
 		group => diradmin,
 		mode => 755,
 		ensure => present,
-		content => template('directadmin/options.conf.erb'),
+		content => template('directadmin/custombuild/options.conf.erb'),
 	}
 }

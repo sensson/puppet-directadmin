@@ -1,0 +1,70 @@
+#!/usr/bin/perl
+
+# This script searches for all old Concurrent mod security logs and
+# then enumerates, sorts chronologically, and serialises them
+# into a standard Serial modsec log format
+
+use strict;
+use warnings;
+# Adjust this to suit the root of your audit logs
+my $logroot = '<%= @secauditlogstoragedir %>';
+# Adjust this to wherever you want the serialised data to go
+my $seriallogfile = '<%= @secauditlog %>.archive';
+my $sstr;
+my $count=0;
+my %rules;
+
+my @now = localtime; $now[5] += 1900; $now[4]++;
+my $now = sprintf "%04d%02d%02d", @now[5,4,3];
+
+# Get list of archiveable audit log directories
+my @to_archive;
+opendir (my $dir, $logroot) or die $!;
+while (my $file = readdir($dir)) {
+	next if ($file =~ m/^\./);
+	if (-d "$logroot/$file" && $file ne $now) {
+		push @to_archive,"$logroot/$file";
+	} 
+}
+closedir($dir);
+@to_archive = sort @to_archive;
+
+# Build array of all audit log files
+my @logevents;
+foreach my $archdir (@to_archive) {
+	push @logevents, &findfiles ($archdir);
+}
+@logevents = sort @logevents;
+
+# Copy the contents of each audit log file into the serial log file
+open my $seriallog,'>>',$seriallogfile or die $!;
+foreach my $logevent (@logevents) {    
+	undef $/;
+	open my $logfile,'<',$logevent or die $!;
+	my $contents = <$logfile>;
+	close $logfile;    
+	print $seriallog $contents;
+	$count++
+}
+close $seriallog;
+
+# Remove old concurrent audit log directories
+foreach my $archdir (@to_archive) {
+	if ($archdir =~ m/$logroot/) { system "rm -rf $archdir"; }
+}
+
+sub findfiles () {
+	my ($root)=@_;
+	my @files;
+	opendir (my $dir, $root) or die $!;
+	while (my $file = readdir($dir)) {
+		next if ($file =~ m/^\./);
+   	if (-f "$root/$file") {
+  			push @files,"$root/$file";
+  		} elsif (-d "$root/$file") {
+  			push @files, &findfiles("$root/$file");
+		}
+	}
+  closedir($dir);
+  @files;
+}
