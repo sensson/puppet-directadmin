@@ -6,6 +6,6 @@
 	"summary": "A DirectAdmin management module",
 	"source": "https://github.com/sensson/sensson-directadmin",
 	"dependencies": [
-		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2" },
+		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2" }
 	]
 }
