@@ -15,6 +15,7 @@ class directadmin::mail(
 
 		# restart on change
 		notify => Service['exim'],
+		require => Exec['directadmin-installer'],
 	} ->
 	# File change: /etc/virtual/limit_unknown
 	file { "/etc/virtual/limit_unknown":
@@ -24,6 +25,7 @@ class directadmin::mail(
 		ensure => present,
 		content => 0,
 		notify => Service['exim'],
+		require => Exec['directadmin-installer'],
 	}
 	
 	# SpamAssassin cron jobs
@@ -40,5 +42,6 @@ class directadmin::mail(
 		hour => 7,
 		minute => 5,
 		ensure => $sa_cron,
+		require => Exec['directadmin-installer'],
 	}
 }

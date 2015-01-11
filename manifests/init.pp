@@ -1,24 +1,13 @@
-class directadmin {
-	class { 'directadmin::services': }
-	
-	# Package: IMAP support
-	package { [ 'libc-client', 'libc-client-devel' ]:
-		ensure => installed,
-	}
+class directadmin(
+	$clientid = 'none',
+	$licenseid = 'none',
+	$interface = 'none',
+) {
+	# Run some sanity checks
+	if !is_numeric($directadmin::clientid) { fail("The client ID $directadmin::clientid is not a number.") }
+	if !is_numeric($directadmin::licenseid) { fail("The license ID $directadmin::licenseid is not a number.") }
 
-	# Package: 
-	if $operatingsystem == 'CentOS' {
-		if $operatingsystemmajrelease == 6 {
-			if $architecture == 'x86_64' {
-				package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', ]:
-					ensure => installed,
-				}
-			}
-		}
-	}
-	
-	# Package: support for MySQL 5.5
-	package { 'libaio':
-		ensure		=> installed,
-	}
+	class { 'directadmin::custombuild::options': } ->
+	class { 'directadmin::install': }
+	class { 'directadmin::services': }
 }

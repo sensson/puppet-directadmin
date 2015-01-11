@@ -4,6 +4,7 @@ class directadmin::services {
 		ensure		=> running,
 		enable		=> true,
 		hasrestart 	=> true,
+		require		=> Exec['directadmin-installer'],
 	}
 	
 	# Service: dovecot, our POP/IMAP server
@@ -11,6 +12,7 @@ class directadmin::services {
 		ensure		=> running,
 		enable		=> true,
 		hasrestart	=> true,
+		require		=> Exec['directadmin-installer'],
 	}
 	
 	# Service: apache, our web server
@@ -18,6 +20,7 @@ class directadmin::services {
 		ensure		=> running,
 		enable		=> true,
 		hasrestart	=> true,
+		require		=> Exec['directadmin-installer'],
 	}
 	
 	# Service: directadmin, our control panel
@@ -25,5 +28,6 @@ class directadmin::services {
 		ensure		=> running,
 		enable		=> true,
 		hasrestart	=> true,
+		require		=> Exec['directadmin-installer'],
 	}
 }

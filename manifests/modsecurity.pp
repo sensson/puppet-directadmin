@@ -29,7 +29,7 @@ class directadmin::modsecurity(
 		cwd			=> "/usr/src",
 		command		=> "wget --no-check-certificate https://www.modsecurity.org/tarball/$modsecurity_version/modsecurity-$modsecurity_version.tar.gz && tar zxf modsecurity-$modsecurity_version.tar.gz && cd /usr/src/modsecurity-$modsecurity_version && wget --no-check-certificate $modsecpatch_url && patch -p1 < modsec-712.patch && ./configure && make && make install; touch /usr/lib/apache/modsecurity-$modsecurity_version",
 		creates		=> "/usr/lib/apache/modsecurity-$modsecurity_version",
-		require 	=> Package['expat-devel'],
+		require 	=> [ Package['expat-devel'], Exec['directadmin-installer'], ],
 		notify		=> Service['httpd'],
 	}
 	

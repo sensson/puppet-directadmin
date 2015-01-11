@@ -31,14 +31,17 @@ class directadmin::custombuild::options(
 	$spamassassin = 'yes',
 	$dovecot = 'yes',
 	$pigeonhole = 'no',
-) {
-	# File: our custombuild options. We're not binding any actions to it
-	# yet. This may result in unexpected, uncontrollable, results.
+) inherits directadmin::custombuild {
+	# File: set up custombuild version 2.0, we have no support for 1.2 any more
+	file { "/root/.custombuild":
+		content => "2.0",
+	}
+
+	# File: our custombuild options. 
 	file { '/usr/local/directadmin/custombuild/options.conf':
-		owner => diradmin,
-		group => diradmin,
 		mode => 755,
 		ensure => present,
 		content => template('directadmin/custombuild/options.conf.erb'),
+		require => Class['directadmin::custombuild'],
 	}
 }

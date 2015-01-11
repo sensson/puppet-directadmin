@@ -8,5 +8,6 @@ define directadmin::mail::spamassassin::score($score = 1) {
 		match	=> "^score $title.*",
 		ensure 	=> present,
 		notify 	=> Service['exim'],
+		require => Exec['directadmin-installer'],
 	}
 }
