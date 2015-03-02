@@ -8,6 +8,6 @@ class directadmin(
 	if !is_numeric($directadmin::licenseid) { fail("The license ID $directadmin::licenseid is not a number.") }
 
 	class { 'directadmin::custombuild::options': } ->
-	class { 'directadmin::install': }
+	class { 'directadmin::install': } 
 	class { 'directadmin::services': }
 }

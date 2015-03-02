@@ -1,6 +1,6 @@
 {
 	"name": "sensson-directadmin",
-	"version": "0.1.1",
+	"version": "0.2.1",
 	"author": "sensson",
 	"license": "Licensed under (Apache 2.0)",
 	"summary": "A DirectAdmin management module",
