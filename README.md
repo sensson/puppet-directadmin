@@ -137,6 +137,7 @@ You will need to set up a reseller package before you can create a reseller. All
 are manageable, as in, you can change them after a package has been created. Renaming
 packages is not supported though.
 
+```
 directadmin_reseller_package { "newpackage2":
 	ensure			=> present,		
 	aftp			=> on,
@@ -171,6 +172,7 @@ directadmin_reseller_package { "newpackage2":
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
 }
+```
 
 #### Set up a new reseller
 
