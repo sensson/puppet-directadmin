@@ -24,6 +24,7 @@ class directadmin::install inherits directadmin {
 	# Package: required packages for DirectAdmin, they need to be installed first
 	package { $directadmin_packages:	
 		ensure	=> installed,
+		before	=> Exec['directadmin-download-installer'],
 	} ->
 	
 	# Package: IMAP support
@@ -52,8 +53,8 @@ class directadmin::install inherits directadmin {
 	# Exec: install DirectAdmin	
 	exec { 'directadmin-installer':
 		cwd		=> "/root",
-		command	=> "/root/setup.sh $directadmin::clientid $directadmin::licenseid $::fqdn $directadmin_interface",
-		require	=> [ Exec['directadmin-download-installer'], Package[$directadmin_packages], Class['directadmin::custombuild::options'], ],
+		command	=> "echo 2.0 > /root/.custombuild && /root/setup.sh $directadmin::clientid $directadmin::licenseid $::fqdn $directadmin_interface",
+		require	=> [ Exec['directadmin-download-installer'], Package[$directadmin_packages], Class['directadmin::custombuild'], ],
 		creates => '/usr/local/directadmin/conf/directadmin.conf',
 		timeout => 0,
 	}

@@ -23,20 +23,51 @@ class { 'directadmin:'
 }
 ```
 
-If you want to change custombuild options before the installation runs you may
-want to use the following class:
+### Custombuild 2.0
+
+Custombuild plays an important role in DirectAdmin's configurations and settings of
+the software it uses to provide its services. Custombuild can be managed with this
+module in a similar fashion as you would expect the command line to work. It is
+automatically installed when you use this module.
+
+We support all options Custombuild supports out of the box. There will never be any
+addtional configuration required. If you want to change an option you can use the
+following function:
 
 ```
-class { 'directadmin::custombuild::options': }
+directadmin::custombuild::set { 'php1_release': value => '5.5', }
 ```
 
-It supports a fair number of options. You can set the `php1_release` and `php1_mode`
-with this class for example. A full list of options can be found in the file itself
-and will be documented later.
+It also supports Hiera. If you want, you can specify a number of settings by simply
+adding something similar to the following to your node's configuration files:
+
+```
+directadmin::custombuild::options:
+  php1_release: 
+    value: '5.5'
+  mysql: 
+    value: '5.5'
+  apache_ver: 
+    value: '2.4'
+  spamassassin:
+    value: 'yes'
+```    
+
+All settings can be set before the installation runs.
 
 When you make any changes to a setting in the custombuild options class it will 
 automatically update the setting in /usr/local/directadmin/custombuild/options.conf but
-it will not trigger a reinstallation of a particular feature in custombuild.
+it will not trigger a reinstallation of a particular feature in custombuild. If you do
+want to do this, you can. For example by using something similar as the code below.
+
+```
+exec { 'rebuild-php':
+	command => '/usr/local/directadmin/custombuild/build php n',
+	subscribe => Directadmin::Custombuild::Set['php1_release'],
+	require => Class['directadmin::install'],
+	refreshonly => true,
+}
+```
 
 ### Managing e-mail settings
 
