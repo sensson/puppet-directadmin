@@ -14,7 +14,7 @@ class directadmin::install inherits directadmin {
 		"openssl", "openssl-devel", "quota", "libaio", 
 		"libcom_err-devel", "libcurl-devel", "gd", "zlib-devel", "zip", "unzip", 
 		"libcap-devel", "cronie", "bzip2", "cyrus-sasl-devel", "perl-ExtUtils-Embed",
-		"autoconf", "automake", "libtool", "which", "patch", "mailx", "db4-devel", 
+		"autoconf", "automake", "libtool", "which", "patch", "mailx", 
 		"perl-ExtUtils-MakeMaker", "perl-Digest-SHA", "perl-Net-DNS", "perl-NetAddr-IP", 
 		"perl-Archive-Tar", "perl-IO-Zlib", "perl-Mail-SPF", "perl-IO-Socket-INET6",
 		"perl-IO-Socket-SSL", "perl-Mail-DKIM", "perl-DBI", "perl-Encode-Detect", 
@@ -25,20 +25,22 @@ class directadmin::install inherits directadmin {
 	package { $directadmin_packages:	
 		ensure	=> installed,
 		before	=> Exec['directadmin-download-installer'],
-	} ->
-	
-	# Package: IMAP support
-	package { [ 'libc-client', 'libc-client-devel' ]:
-		ensure => installed,
 	}
 
 	# Package: 
 	if $operatingsystem == 'CentOS' {
 		if $operatingsystemmajrelease == 6 {
 			if $architecture == 'x86_64' {
-				package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', ]:
-					ensure => installed,
+				package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', 'db4-devel', ]:
+					ensure 	=> installed,
+					before	=> Exec['directadmin-download-installer'],
 				}
+			}
+			
+			# Package: IMAP support
+			package { [ 'libc-client', 'libc-client-devel' ]:
+				ensure 	=> installed,
+				before	=> Exec['directadmin-download-installer'],
 			}
 		}
 	}
