@@ -48,6 +48,12 @@ Puppet::Type.newtype(:directadmin_reseller_package) do
     defaultto :on
   end
   
+  newproperty(:dns) do
+    desc 'Personal DNS servers'
+    newvalues(:two, :three, :off)
+    defaultto :off
+  end
+  
   newproperty(:dnscontrol) do
     desc 'Allow DNS control.'
     newvalues(:on, :off)
@@ -88,10 +94,6 @@ Puppet::Type.newtype(:directadmin_reseller_package) do
     desc 'Allow login keys.'
     newvalues(:on, :off)
     defaultto :off
-  end
-  
-  newproperty(:language) do
-    desc 'Language.'    
   end
   
   newproperty(:mysql) do

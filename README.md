@@ -176,6 +176,7 @@ directadmin_reseller_package { "newpackage2":
 	catchall		=> on,
 	cgi				=> on,
 	cron			=> on,
+	dns				=> off/two/three,
 	dnscontrol		=> on,
 	domainptr		=> 2000,
 	domains			=> 3000,

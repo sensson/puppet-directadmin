@@ -16,7 +16,6 @@ Puppet::Type.type(:directadmin_reseller_package).provide :directadmin, :parent =
     package[:inode]         = resource[:inodes] if resource[:inodes] != :unlimited
     package[:uinode]        = "ON" if resource[:inodes] == :unlimited
     package[:ips]           = resource[:ips]
-    package[:language]      = resource[:language]
     package[:mysql]         = resource[:mysql] if resource[:mysql] != :unlimited
     package[:umysql]        = "ON" if resource[:mysql] == :unlimited
     package[:nemailf]       = resource[:nemailf] if resource[:nemailf] != :unlimited
@@ -49,6 +48,11 @@ Puppet::Type.type(:directadmin_reseller_package).provide :directadmin, :parent =
     resource[:oversell] == :on ? (package[:oversell] = "ON") : (package[:oversell] = "OFF")
     resource[:sysinfo] == :on ? (package[:sysinfo] = "ON") : (package[:sysinfo] = "OFF")
     resource[:serverip] == :on ? (package[:serverip] = "ON") : (package[:serverip] = "OFF")
+    
+    # Other resources
+    package[:dns] = "OFF" if resource[:dns] == :off
+    package[:dns] = "TWO" if resource[:dns] == :two
+    package[:dns] = "THREE" if resource[:dns] == :three
     
     @package_details = package
   end
@@ -152,6 +156,15 @@ Puppet::Type.type(:directadmin_reseller_package).provide :directadmin, :parent =
   end
   
   def cron=(value)
+    return set_package_values
+  end
+  
+  def dns
+    package = @package_values
+    return package["dns"].downcase
+  end
+  
+  def dns=(value)
     return set_package_values
   end
   
