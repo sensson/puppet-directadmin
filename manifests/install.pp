@@ -31,10 +31,16 @@ class directadmin::install inherits directadmin {
 	if $operatingsystem == 'CentOS' {
 		if $operatingsystemmajrelease == 6 {
 			if $architecture == 'x86_64' {
-				package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', 'db4-devel', ]:
+				package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', ]:
 					ensure 	=> installed,
 					before	=> Exec['directadmin-download-installer'],
 				}
+			}
+			
+			# Package: db4-devel
+			package { [ 'db4-devel', ]:
+				ensure 	=> installed,
+				before	=> Exec['directadmin-download-installer'],
 			}
 			
 			# Package: IMAP support
