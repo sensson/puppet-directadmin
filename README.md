@@ -15,11 +15,15 @@ this module on an existing server, certain options may be overwritten.
 If you don't specify an `interface` it will default to venet0:0 on OpenVZ containers
 and eth0 on other systems. You can override this setting or not set it at all.
 
+If you set `auto_update` to true it will attempt to update all packages that are
+installed through Custombuild 2.0.  
+
 ```
 class { 'directadmin:'
-	clientid => '1000',
-	licenseid = '10000',
-	interface = 'eth0',
+	clientid    => '1000',
+	licenseid   => '10000',
+	interface   => 'eth0',
+	auto_update => true,
 }
 ```
 
