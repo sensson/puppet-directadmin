@@ -6,7 +6,7 @@ support planned for other operating systems yet.
 
 It can manage the installation of DirectAdmin, admin and reseller users and their 
 packages. It is not meant to replace the API or other functionality from DirectAdmin
-we will never include support for managing users or other user based functions
+and we will never include support for managing users or other user based functions
 such as managing databases and e-mail addresses. 
 
 Pull requests and bug reports are always appreciated.
