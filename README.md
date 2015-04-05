@@ -2,7 +2,14 @@
 
 This module is used to configure DirectAdmin. It only supports RHEL based
 servers at the moment such as RHEL itself and CentOS. There is currently no
-support planned for other operating systems yet.
+support planned for other operating systems yet. 
+
+It can manage the installation of DirectAdmin, admin and reseller users and their 
+packages. It is not meant to replace the API or other functionality from DirectAdmin
+we will never include support for managing users or other user based functions
+such as managing databases and e-mail addresses. 
+
+Pull requests and bug reports are always appreciated.
 
 ## Examples
 
@@ -224,6 +231,46 @@ directadmin_reseller { "resellername":
 	user_package 	=> "an_existing_package",
 	notifications	=> "no",
 	api_username 	=> "admin",
+	api_password 	=> "api_password",
+	api_hostname	=> "localhost (default)",
+	api_port		=> "2222 (default)",
+}
+```
+
+#### Set up a new user package
+
+All values are manageable, as in, you can change them after a package has been created. 
+Renaming packages is not supported though.
+
+```
+directadmin_user_package { "bronze":
+	ensure			=> present,		
+	aftp			=> off,
+	bandwidth		=> 25000,
+	catchall		=> on,
+	cgi				=> on,
+	cron			=> on,
+	dnscontrol		=> on,
+	domainptr		=> 1001,
+	domains			=> 1,
+	ftp				=> 2001,
+	inodes			=> 3001,
+	language		=> 'en',
+	login_keys		=> on,
+	mysql			=> 4001,
+	nemailf			=> 5001,
+	nemails			=> 6001,
+	nemailml		=> 7001,
+	nemailr			=> 8001,
+	nsubdomains		=> unlimited,
+	quota			=> 1000,
+	php				=> on,
+	spamassassin	=> on,
+	ssl				=> on,
+	sysinfo			=> on,
+	suspend_at_limit => on,
+	skin			=> 'enhanced',
+	api_username 	=> "reseller",
 	api_password 	=> "api_password",
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
