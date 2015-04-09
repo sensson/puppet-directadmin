@@ -16,4 +16,8 @@ class directadmin(
 	# Set all required options for custombuild
 	$custombuild_options = hiera('directadmin::custombuild::options', {})
 	create_resources(directadmin::custombuild::set, $custombuild_options)
+	
+	# Set all required configuration settings
+	$directadmin_config = hiera('directadmin::config::options', {})
+	create_resources(directadmin::config::set, $directadmin_config)
 }

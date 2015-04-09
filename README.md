@@ -34,6 +34,32 @@ class { 'directadmin:'
 }
 ```
 
+#### Configuration
+
+This module allows you to configure DirectAdmin. We support all DirectAdmin 
+configuration settings. Be careful though, we don't check if the settings are
+actually valid. It will set it to whatever value you have specified.
+
+```
+directadmin::config::set { 'brute_force_log_scanner': value => '0', }
+```
+
+It also supports Hiera. If you want, you can specify a number of settings by simply
+adding something similar to the following to your node's configuration files:
+
+```
+directadmin::config::options:
+  brute_force_log_scanner:
+    value: 0
+  timeout:
+    value: 30
+  enable_ssl_sni:
+    value: 1
+```
+
+Changing a DirectAdmin configuration option will automatically trigger a reload of
+the DirectAdmin service.
+
 ### Custombuild 2.0
 
 Custombuild plays an important role in DirectAdmin's configurations and settings of
