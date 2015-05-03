@@ -1,6 +1,8 @@
 class directadmin::resources {
 	# Create additional admin users and manage the primary one
-	user { 'admin': password => $directadmin::admin_password, }
+	if $directadmin::admin_password != '' {
+		user { 'admin': password => $directadmin::admin_password, }
+	}
 	$directadmin_admins = hiera('directadmin::admins', {})
 	create_resources(directadmin_admin, $directadmin_admins)
 
