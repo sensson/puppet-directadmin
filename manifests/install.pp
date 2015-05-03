@@ -16,7 +16,7 @@ class directadmin::install inherits directadmin {
 		if $operatingsystemmajrelease >= 6 {
 			$directadmin_packages = [ 
 				"gcc", "gcc-c++", "flex", "bison", "make", "bind", "bind-libs", 
-				"openssl", "openssl-devel", "quota", "libaio", 
+				"openssl", "openssl-devel", "quota", "libaio", "pam-devel",
 				"libcom_err-devel", "libcurl-devel", "gd", "zlib-devel", "zip", "unzip", 
 				"libcap-devel", "cronie", "bzip2", "cyrus-sasl-devel", "perl-ExtUtils-Embed",
 				"autoconf", "automake", "libtool", "which", "patch", "mailx", 
@@ -59,8 +59,6 @@ class directadmin::install inherits directadmin {
 				before	=> Exec['directadmin-download-installer'],
 			}
 		}
-
-		
 	}
 
 	# Exec: set up the installation files
@@ -78,5 +76,4 @@ class directadmin::install inherits directadmin {
 		creates => '/usr/local/directadmin/conf/directadmin.conf',
 		timeout => 0,
 	}
-	
 }

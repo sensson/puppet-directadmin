@@ -23,14 +23,15 @@ If you don't specify an `interface` it will default to venet0:0 on OpenVZ contai
 and eth0 on other systems. You can override this setting or not set it at all.
 
 If you set `auto_update` to true it will attempt to update all packages that are
-installed through Custombuild 2.0.  
+installed through Custombuild 2.0.
 
 ```
 class { 'directadmin:'
-	clientid    => '1000',
-	licenseid   => '10000',
-	interface   => 'eth0',
-	auto_update => true,
+	clientid       => '1000',
+	licenseid      => '10000',
+	interface      => 'eth0',
+	auto_update    => true,
+	admin_password => 's0m3p4ssw0rd',
 }
 ```
 
@@ -111,10 +112,10 @@ exec { 'rebuild-php':
 DirectAdmin has a few features that relate to how e-mails are handled on the server. This
 class has fairly basic support implemented for it. You can set an outgoing limit with
 `mail_limit` and if you set `sa_updates` to true it will set a cron job that runs sa-update
-on a daily basis.
+on a daily basis. Setting `php_imap` to true will compile support for imap into PHP.
 
 ```
-class { 'directadmin::mail': mail_limit => 200, sa_updates => true, }
+class { 'directadmin::mail': mail_limit => 200, sa_updates => true, php_imap => true, }
 ```
 
 If you need to set custom rules for SpamAssassin you can do so with the following function:
