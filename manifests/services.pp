@@ -31,4 +31,12 @@ class directadmin::services {
     hasrestart  => true,
     require     => Exec['directadmin-installer'],
   }
+
+  # Service: named, our dns server
+  service { 'named':
+    ensure      => running,
+    enable      => true,
+    hasrestart  => true,
+    require     => Exec['directadmin-installer'],
+  }
 }
