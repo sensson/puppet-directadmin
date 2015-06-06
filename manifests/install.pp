@@ -11,55 +11,31 @@ class directadmin::install inherits directadmin {
   # The installation URL and a set of base packages that we need to install
   $directadmin_installer = 'http://www.directadmin.com/setup.sh'
 
-  # Support for CentOS only at the moment.
+  # The following will install all required packages for SpamAssassin on CentOS servers.
   if $::operatingsystem == 'CentOS' {
-    # We only really support CentOS 6 and up.
     if $::operatingsystemmajrelease >= 6 {
       $directadmin_packages = [
-        'gcc', 'gcc-c++', 'flex', 'bison', 'make', 'bind', 'bind-libs',
-        'openssl', 'openssl-devel', 'quota', 'libaio', 'pam-devel',
-        'libcom_err-devel', 'libcurl-devel', 'gd', 'zlib-devel', 'zip', 'unzip',
-        'libcap-devel', 'cronie', 'bzip2', 'cyrus-sasl-devel', 'perl-ExtUtils-Embed',
-        'autoconf', 'automake', 'libtool', 'which', 'patch', 'mailx',
-        'perl-ExtUtils-MakeMaker', 'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
-        'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
-        'perl-IO-Socket-SSL', 'perl-Mail-DKIM', 'perl-DBI', 'perl-Encode-Detect',
-        'perl-HTML-Parser', 'perl-HTML-Tagset', 'perl-Time-HiRes', 'perl-libwww-perl',
-      ]
-      
-    } else {
-      # Some backwards compatibility, though this won't allow you to install on old versions.
-      $directadmin_packages = [
-        'gcc', 'gcc-c++', 'make', 'bind', 'bind-libs',
-      ]
-    }
+            'perl-ExtUtils-MakeMaker', 'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
+            'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
+            'perl-IO-Socket-SSL', 'perl-Mail-DKIM', 'perl-DBI', 'perl-Encode-Detect',
+            'perl-HTML-Parser', 'perl-HTML-Tagset', 'perl-Time-HiRes', 'perl-libwww-perl',
+            'perl-ExtUtils-Embed', 'perl-Sys-Syslog',
+          ]
 
-    # Package: required packages for DirectAdmin, they need to be installed first
-    package { $directadmin_packages:
-      ensure  => installed,
-      before  => Exec['directadmin-download-installer'],
-    }
-
-    if $::operatingsystemmajrelease == 6 {
-      if $::architecture == 'x86_64' {
-        package { [ 'krb5-appl-clients.x86_64', 'krb5-appl-servers.x86_64', ]:
-          ensure  => installed,
-          before  => Exec['directadmin-download-installer'],
-        }
-      }
-      
-      # Package: db4-devel
-      package { [ 'db4-devel', ]:
-        ensure  => installed,
-        before  => Exec['directadmin-download-installer'],
-      }
-      
-      # Package: IMAP support
-      package { [ 'libc-client', 'libc-client-devel' ]:
+      # Package: required packages for SpamAssassin on CentOS 6+
+      package { $directadmin_packages:
         ensure  => installed,
         before  => Exec['directadmin-download-installer'],
       }
     }
+  }
+
+  # Exec: make sure the required packages are installed automatically. This provides support for all operating systems.
+  exec { 'directadmin-set-pre-install':
+    cwd     => '/root',
+    command => 'echo 1 > /root/.preinstall',
+    creates => '/root/.preinstall',
+    before  => Exec['directadmin-installer'],
   }
 
   # Exec: set up the installation files
@@ -73,7 +49,7 @@ class directadmin::install inherits directadmin {
   exec { 'directadmin-installer':
     cwd     => '/root',
     command => "echo 2.0 > /root/.custombuild && /root/setup.sh ${directadmin::clientid} ${directadmin::licenseid} ${::fqdn} ${directadmin_interface}",
-    require => [ Exec['directadmin-download-installer'], Package[$directadmin_packages], Class['directadmin::custombuild'], ],
+    require => [ Exec['directadmin-download-installer'], Class['directadmin::custombuild'], ],
     creates => '/usr/local/directadmin/conf/directadmin.conf',
     timeout => 0,
   }
