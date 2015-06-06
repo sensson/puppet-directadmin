@@ -27,6 +27,9 @@ class directadmin(
   # Set up the chain that defines when to run which resources in order to support Hiera. This is done in two steps:
   # - The first chain doesn't include the directadmin_admin resouce on purpose, you may not use it.
   # - The second chain makes sure that should you include a different admin, it's running before the reseller package resource.
+  # - The third and fourth chain make sure that our workaround for nameservers in directadmin::config::set works.
   Class['directadmin::services'] -> User <| title == 'admin' |> -> Directadmin_reseller_package <| |> -> Directadmin_reseller <| |> -> Directadmin_user_package <| |>
   Directadmin_admin <| |> -> Directadmin_reseller_package <| |>
+  File_line <| path == '/usr/local/directadmin/data/users/admin/user.conf' |> -> Directadmin_reseller_package <| |>
+  File_line <| path == '/usr/local/directadmin/data/users/admin/reseller.conf' |> -> Directadmin_reseller_package <| |>
 }
