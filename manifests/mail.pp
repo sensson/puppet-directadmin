@@ -59,7 +59,7 @@ class directadmin::mail(
     exec { 'directadmin-install-php-imap':
       cwd     => '/root',
       command => '/root/imap_php.sh',
-      unless  => 'php -i | grep imap | wc -l | grep -c 3',
+      unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
       require => Exec['directadmin-installer'],
       timeout => 0,
     }
