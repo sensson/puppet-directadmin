@@ -107,6 +107,28 @@ exec { 'rebuild-php':
 }
 ```
 
+### Managing services
+
+We currently only support managing small portions of named. We have implemented two features:
+
+* Managing also-notify, allow-transfer and notify settings
+* Managing named rewrites (in case you are managing custom DNS templates)
+
+You can enable `also-notify` and `allow-transfer` by passing the relevant parameters to this class.
+
+```
+class directadmin::services::named { also-notify => '1.2.3.4', allow-transfer => '1.2.3.4' }
+```
+
+Aside from that this module allows you to rewrite named, e.g. what's described here:
+http://help.directadmin.com/item.php?id=141
+
+You can do this with:
+
+```
+notify => Exec['rewrite-named-config'],
+```
+
 ### Managing e-mail settings
 
 DirectAdmin has a few features that relate to how e-mails are handled on the server. This
