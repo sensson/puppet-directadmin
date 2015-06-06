@@ -3,6 +3,7 @@ class directadmin::mail(
   $mail_limit = 200,
   $sa_updates = true,
   $php_imap = false,
+  $default_webmail = 'roundcube',
 ) {
   # File change: set up our e-mail limit
   file { '/etc/virtual/limit':
@@ -29,6 +30,23 @@ class directadmin::mail(
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
+
+  # File: set the default webmail client
+  file { '/var/www/html/webmail': 
+    ensure => link,
+    target => "/var/www/html/${default_webmail}",
+    require => Exec['directadmin-installer'],
+  }
+  # File_line: set the default /webmail alias
+  file_line { 'httpd-alias-default-webmail': 
+    ensure => present,
+    path => '/etc/httpd/conf/extra/httpd-alias.conf',
+    line => "Alias /webmail /var/www/html/${default_webmail}",
+    match => "Alias \/webmail",
+    notify => Service['httpd'],
+    require => Exec['directadmin-installer'],
+  }
+  directadmin::config::set { 'webmail_link': value => $default_webmail, }
 
   # Install support for imap in php if required
   if $php_imap == true {

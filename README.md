@@ -136,8 +136,11 @@ class has fairly basic support implemented for it. You can set an outgoing limit
 `mail_limit` and if you set `sa_updates` to true it will set a cron job that runs sa-update
 on a daily basis. Setting `php_imap` to true will compile support for imap into PHP.
 
+You can set the `default_webmail` client as well. This will change all the required settings for you
+and defaults to Roundcube.
+
 ```
-class { 'directadmin::mail': mail_limit => 200, sa_updates => true, php_imap => true, }
+class { 'directadmin::mail': mail_limit => 200, sa_updates => true, php_imap => true, default_webmail => 'roundcube' }
 ```
 
 If you need to set custom rules for SpamAssassin you can do so with the following function:
