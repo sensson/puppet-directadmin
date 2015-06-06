@@ -19,13 +19,24 @@ class directadmin::install inherits directadmin {
             'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
             'perl-IO-Socket-SSL', 'perl-Mail-DKIM', 'perl-DBI', 'perl-Encode-Detect',
             'perl-HTML-Parser', 'perl-HTML-Tagset', 'perl-Time-HiRes', 'perl-libwww-perl',
-            'perl-ExtUtils-Embed', 'perl-Sys-Syslog',
+            'perl-ExtUtils-Embed',
           ]
 
       # Package: required packages for SpamAssassin on CentOS 6+
       package { $directadmin_packages:
         ensure  => installed,
         before  => Exec['directadmin-download-installer'],
+      }
+    }
+    if $::operatingsystemmajrelease >= 7 {
+      $additional_packages = [
+          'perl-Sys-Syslog',
+        ]
+
+      # Package: required packages for SpamAssassin on CentOS 7+
+      package { $additional_packages:
+          ensure  => installed,
+          before  => Exec['directadmin-download-installer'],
       }
     }
   }
