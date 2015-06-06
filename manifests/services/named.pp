@@ -20,7 +20,7 @@ class directadmin::services::named(
       path => '/etc/named.conf',
       line => "\tallow-transfer { ${allow_transfer}; };",
       match => "^\tallow-transfer",
-      after => '^options {',
+      after => '^options \{',
       notify => Service['named'],
       require => Exec['directadmin-installer'],
     }
@@ -33,7 +33,7 @@ class directadmin::services::named(
       path => '/etc/named.conf',
       line => "\talso-notify { ${also_notify}; };",
       match => "^\talso-notify",
-      after => '^options {',
+      after => '^options \{',
       notify => Service['named'],
       require => Exec['directadmin-installer'],
     }
@@ -44,7 +44,7 @@ class directadmin::services::named(
       path => '/etc/named.conf',
       line => "\tnotify yes;",
       match => "^\tnotify",
-      after => '^options {',
+      after => '^options \{',
       notify => Service['named'],
       require => Exec['directadmin-installer'],
     }
