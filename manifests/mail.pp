@@ -85,7 +85,7 @@ class directadmin::mail(
   # Cron: daily update of SpamAssassin rules
   cron { 'exim-sa-update':
     ensure  => $sa_cron,
-    command => '/usr/bin/sa-update; /sbin/service exim restart',
+    command => '/usr/bin/sa-update && /sbin/service exim restart >/dev/null 2>&1',
     user    => root,
     hour    => 7,
     minute  => 5,
