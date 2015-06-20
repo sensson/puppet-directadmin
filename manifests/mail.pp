@@ -68,9 +68,9 @@ class directadmin::mail(
   # File_line: make sure the primary hostname is set in exim.conf
   # as we have seen some issues with CentOS 7 here.
   file_line { 'exim-set-primary-hostname':
-    path  => "/etc/exim.conf",
+    path  => '/etc/exim.conf',
     line  => "primary_hostname = ${::fqdn}",
-    match => "# primary_hostname",
+    match => '# primary_hostname',
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
