@@ -5,6 +5,12 @@ class directadmin::services::named(
   $ensure_transfer = 'present',
   $ensure_notify = 'present',
 ) {
+  case $::operatingsystem {
+    'RedHat', 'CentOS':   { $named_path = '/etc/named.conf' }
+    /^(Debian|Ubuntu)$/:  { $named_path = '/etc/bind/named.conf.options' }
+    default:              { $named_path = '/etc/named.conf' }
+  }
+
   # Exec: rewrite named configurations when required
   exec { 'rewrite-named-config':
     command => 'echo "action=rewrite&value=named" >> /usr/local/directadmin/data/task.queue',
@@ -17,7 +23,7 @@ class directadmin::services::named(
     # File_line: enable allow transfers
     file_line { 'named-enable-allow-transfer':
       ensure => $ensure_transfer,
-      path => '/etc/named.conf',
+      path => $named_path,
       line => "\tallow-transfer { ${allow_transfer}; };",
       match => "^\tallow-transfer",
       after => '^options \{',
@@ -30,7 +36,7 @@ class directadmin::services::named(
     # File_line: also notify  
     file_line { 'named-enable-also-notify':
       ensure => $ensure_notify,
-      path => '/etc/named.conf',
+      path => $named_path,
       line => "\talso-notify { ${also_notify}; };",
       match => "^\talso-notify",
       after => '^options \{',
@@ -41,7 +47,7 @@ class directadmin::services::named(
     # File_line: also notify
     file_line { 'named-enable-notify-setting':
       ensure => $ensure_notify,
-      path => '/etc/named.conf',
+      path => $named_path,
       line => "\tnotify yes;",
       match => "^\tnotify",
       after => '^options \{',

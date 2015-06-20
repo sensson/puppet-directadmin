@@ -1,10 +1,17 @@
 # directadmin::services
 class directadmin::services {
+  case $::operatingsystem {
+    'RedHat', 'CentOS':   { $has_status = true }
+    /^(Debian|Ubuntu)$/:  { $has_status = false }
+    default:              { $has_status = true }
+  }
+
   # Service: exim, our e-mail server
   service { 'exim':
     ensure      => running,
     enable      => true,
     hasrestart  => true,
+    hasstatus   => $has_status,
     require     => Exec['directadmin-installer'],
   }
   
@@ -13,6 +20,7 @@ class directadmin::services {
     ensure      => running,
     enable      => true,
     hasrestart  => true,
+    hasstatus   => $has_status,
     require     => Exec['directadmin-installer'],
   }
   
@@ -21,6 +29,7 @@ class directadmin::services {
     ensure      => running,
     enable      => true,
     hasrestart  => true,
+    hasstatus   => $has_status,
     require     => Exec['directadmin-installer'],
   }
   
@@ -29,6 +38,7 @@ class directadmin::services {
     ensure      => running,
     enable      => true,
     hasrestart  => true,
+    hasstatus   => $has_status,
     require     => Exec['directadmin-installer'],
   }
 
@@ -37,6 +47,7 @@ class directadmin::services {
     ensure      => running,
     enable      => true,
     hasrestart  => true,
+    hasstatus   => $has_status,
     require     => Exec['directadmin-installer'],
   }
 }

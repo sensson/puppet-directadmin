@@ -18,9 +18,17 @@ class directadmin::modsecurity(
   # Url to our modsecurity patch to support mod_ruid2, this will be executed by modsecurity-install
   $modsecpatch_url = 'https://gist.githubusercontent.com/ju5t/0d61ee80b23f0987d65e/raw/5adbaead0bc91bf88aa4f26d4b4285fe3105815a/modsec-712.patch'
 
+  # Set the right package for expat-devel
+  case $::operatingsystem {
+    'RedHat', 'CentOS':   { $expat_devel = 'expat-devel' }
+    /^(Debian|Ubuntu)$/:  { $expat_devel = 'libexpat1-dev' }
+    default:              { $expat_devel = 'expat-devel' }
+  }
+
   # Package: needed for mod_security
   package { 'expat-devel':
     ensure  => installed,
+    name    => $expat_devel,
   }
 
   # Exec: install mod security. Our check is based on a custom file. This allows us to do scheduled upgrades.

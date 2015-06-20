@@ -21,12 +21,6 @@ class directadmin::install inherits directadmin {
             'perl-HTML-Parser', 'perl-HTML-Tagset', 'perl-Time-HiRes', 'perl-libwww-perl',
             'perl-ExtUtils-Embed',
           ]
-
-      # Package: required packages for SpamAssassin on CentOS 6+
-      package { $directadmin_packages:
-        ensure  => installed,
-        before  => Exec['directadmin-download-installer'],
-      }
     }
     if $::operatingsystemmajrelease >= 7 {
       $additional_packages = [
@@ -39,6 +33,20 @@ class directadmin::install inherits directadmin {
           before  => Exec['directadmin-download-installer'],
       }
     }
+  }
+
+  # The following will install all required packages for SpamAssassin on Debian servers.
+  if $::operatingsystem == 'Debian' {
+    $directadmin_packages = [
+        'libarchive-any-perl', 'libhtml-parser-perl', 'libnet-dns-perl', 'libnetaddr-ip-perl',
+        'libhttp-date-perl',
+      ]
+  }
+
+  # Package: required packages for SpamAssassin etc.
+  package { $directadmin_packages:
+    ensure  => installed,
+    before  => Exec['directadmin-download-installer'],
   }
 
   # Exec: make sure the required packages are installed automatically. This provides support for all operating systems.

@@ -50,6 +50,16 @@ class directadmin::mail(
 
   # Install support for imap in php if required
   if $php_imap == true {
+    # Make sure libc-client2007e-dev is installed on Debian and Ubuntu
+    if $::operatingsystem =~ /^(Debian|Ubuntu)$/ {
+      if $::operatingsystemmajrelease >= 7 {
+        package { 'libc-client2007e-dev':
+          ensure => installed,
+          allow_virtual => true,
+          before => Exec['directadmin-download-php-imap'],
+        }
+      }
+    }
     exec { 'directadmin-download-php-imap':
       cwd     => '/root',
       command => 'wget -O /root/imap_php.sh files.directadmin.com/services/all/imap_php.sh && chmod +x /root/imap_php.sh',

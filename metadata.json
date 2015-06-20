@@ -1,6 +1,6 @@
 {
 	"name": "sensson-directadmin",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"author": "sensson",
 	"license": "Licensed under (Apache 2.0)",
 	"summary": "A module to install and configure DirectAdmin",
@@ -10,7 +10,8 @@
 	"tags": [ "directadmin" ],
 	"operatingsystem_support": [
 		{ "operatingsystem":"CentOS", "operatingsystemrelease":[ "6.0", "7.0" ] },
-		{ "operatingsystem":"RedHat", "operatingsystemrelease":[ "6.0", "7.0" ] }
+		{ "operatingsystem":"RedHat", "operatingsystemrelease":[ "6.0", "7.0" ] },
+		{ "operatingsystem":"Debian", "operatingsystemrelease":[ "7.0" ] }
 	],
 	"dependencies": [
 		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2" }

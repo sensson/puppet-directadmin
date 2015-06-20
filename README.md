@@ -1,8 +1,6 @@
 # directadmin
 
-This module is used to configure DirectAdmin. It only supports RHEL based
-servers at the moment such as RHEL itself and CentOS. There is currently no
-support planned for other operating systems yet. 
+This module is used to configure DirectAdmin.
 
 It can manage the installation of DirectAdmin, admin and reseller users and their 
 packages. It is not meant to replace the API or other functionality from DirectAdmin
