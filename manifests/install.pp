@@ -13,6 +13,14 @@ class directadmin::install inherits directadmin {
 
   # The following will install all required packages for SpamAssassin on CentOS servers.
   if $::operatingsystem == 'CentOS' {
+    if $::operatingsystemmajrelease == 5 {
+      $directadmin_packages = [
+            'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
+            'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
+            'perl-IO-Socket-SSL', 'perl-Mail-DKIM', 'perl-DBI', 'perl-Encode-Detect',
+            'perl-HTML-Parser', 'perl-HTML-Tagset','perl-libwww-perl',
+          ]
+    }
     if $::operatingsystemmajrelease >= 6 {
       $directadmin_packages = [
             'perl-ExtUtils-MakeMaker', 'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
