@@ -24,7 +24,7 @@ If you set `auto_update` to true it will attempt to update all packages that are
 installed through Custombuild 2.0.
 
 ```
-class { 'directadmin:'
+class { 'directadmin':
 	clientid       => '1000',
 	licenseid      => '10000',
 	interface      => 'eth0',
