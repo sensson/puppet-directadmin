@@ -44,7 +44,7 @@ class directadmin::install inherits directadmin {
   }
 
   # The following will install all required packages for SpamAssassin on Debian servers.
-  if $::operatingsystem == 'Debian' {
+  if $::osfamily == 'Debian' {
     $directadmin_packages = [
         'libarchive-any-perl', 'libhtml-parser-perl', 'libnet-dns-perl', 'libnetaddr-ip-perl',
         'libhttp-date-perl',
