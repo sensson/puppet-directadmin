@@ -23,6 +23,8 @@ and eth0 on other systems. You can override this setting or not set it at all.
 If you set `auto_update` to true it will attempt to update all packages that are
 installed through Custombuild 2.0.
 
+Set `lan` to true when using [DirectAdmin behind a NAT](http://www.directadmin.com/lan.shtml).
+
 ```
 class { 'directadmin':
 	clientid       => '1000',
@@ -30,6 +32,7 @@ class { 'directadmin':
 	interface      => 'eth0',
 	auto_update    => true,
 	admin_password => 's0m3p4ssw0rd',
+	lan            => false,
 }
 ```
 
@@ -54,6 +57,9 @@ directadmin::config::options:
     value: 30
   enable_ssl_sni:
     value: 1
+  #If you run DirectAdmin behind a NAT, set lan_ip option:
+  #lan_ip:
+  #  value: 192.168.0.2
 ```
 
 Changing a DirectAdmin configuration option will automatically trigger a reload of
