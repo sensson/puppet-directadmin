@@ -8,7 +8,7 @@ define directadmin::custombuild::set($value = '') {
   # It needs to run before the installation so we can pre-set things before it runs.
   exec { "custombuild-set-${title}-${value}":
     command => "/usr/local/directadmin/custombuild/build set ${title} ${value}",
-    unless => "grep /usr/local/directadmin/custombuild/options.conf -e '${title}=${value}'",
+    unless => "grep /usr/local/directadmin/custombuild/options.conf -e '^${title}=${value}'",
     require => Class['directadmin::custombuild'],
     before => Class['directadmin::install'],
   }
