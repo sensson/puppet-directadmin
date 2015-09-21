@@ -11,5 +11,6 @@ define directadmin::custombuild::set($value = '') {
     unless => "grep /usr/local/directadmin/custombuild/options.conf -e '${title}=${value}'",
     require => Class['directadmin::custombuild'],
     before => Class['directadmin::install'],
+    path => '/bin:/usr/bin',
   }
 }

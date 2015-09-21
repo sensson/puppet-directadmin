@@ -12,7 +12,7 @@ class directadmin::mail(
     group   => mail,
     mode    => '0644',
 
-    # maximum e-mails per day, it needs quotes to ensure it gets 
+    # maximum e-mails per day, it needs quotes to ensure it gets
     # read correctly, Hiera will set as an integer for example
     content => "${mail_limit}",
 
@@ -65,6 +65,7 @@ class directadmin::mail(
       command => 'wget -O /root/imap_php.sh files.directadmin.com/services/all/imap_php.sh && chmod +x /root/imap_php.sh',
       creates => '/root/imap_php.sh',
       require => Exec['directadmin-installer'],
+      path    => '/bin:/usr/bin',
     } ->
     exec { 'directadmin-install-php-imap':
       cwd     => '/root',
@@ -72,6 +73,7 @@ class directadmin::mail(
       unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
       require => Exec['directadmin-installer'],
       timeout => 0,
+      path    => '/bin:/usr/bin',
     }
   }
 
