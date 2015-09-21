@@ -5,6 +5,7 @@ class directadmin(
   $interface = 'none',
   $auto_update = false,
   $admin_password = '',
+  $lan = false,
 ) {
   # Run some sanity checks
   if !is_numeric($directadmin::clientid) { fail("The client ID ${directadmin::clientid} is not a number.") }
