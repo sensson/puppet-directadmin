@@ -11,6 +11,7 @@
 	"operatingsystem_support": [
 		{ "operatingsystem":"CentOS", "operatingsystemrelease":[ "6.0", "7.0" ] },
 		{ "operatingsystem":"RedHat", "operatingsystemrelease":[ "6.0", "7.0" ] },
+		{ "operatingsystem":"Ubuntu", "operatingsystemrelease":[ "14.04" ] },
 		{ "operatingsystem":"Debian", "operatingsystemrelease":[ "7.0" ] }
 	],
 	"dependencies": [
