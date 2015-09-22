@@ -80,7 +80,7 @@ class directadmin::mail(
   file_line { 'exim-set-primary-hostname':
     path  => '/etc/exim.conf',
     line  => "primary_hostname = ${::fqdn}",
-    match => '# primary_hostname',
+    match => '^(# )?primary_hostname =',
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
