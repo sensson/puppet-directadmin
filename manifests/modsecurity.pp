@@ -39,6 +39,7 @@ class directadmin::modsecurity(
     creates => "/usr/lib/apache/modsecurity-${modsecurity_version}",
     require => [ Package['expat-devel'], Exec['directadmin-installer'], ],
     notify  => Service['httpd'],
+    path    => '/bin:/usr/bin',
   }
   
   # File: ensure the mod security config file exists
