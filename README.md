@@ -176,7 +176,7 @@ option to downgrade yet.
 Be careful when using this function. 
 
 ```
-class { 'directadmin::modsecurity': 'modsecurity_version => '2.8.0', 'secauditlogtype' => 'Concurrent', 'secauditlog' => '', 'secauditlogstoragedir' => '', 'secruleengine' => 'On' }
+class { 'directadmin::modsecurity': modsecurity_version => '2.8.0', secauditlogtype => 'Concurrent', secauditlog => '/var/log/modsec_audit.log', secauditlogstoragedir => '', secruleengine => 'On' }
 ```
 
 ### Roles and profiles
