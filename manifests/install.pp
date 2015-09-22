@@ -74,6 +74,7 @@ class directadmin::install inherits directadmin {
     command => 'echo 1 > /root/.preinstall',
     creates => '/root/.preinstall',
     before  => Exec['directadmin-installer'],
+    path    => '/bin:/usr/bin',
   }
 
   # Exec: set up the installation files
@@ -81,14 +82,16 @@ class directadmin::install inherits directadmin {
     cwd     => '/root',
     command => "wget -O setup.sh --no-check-certificate ${directadmin_installer} && chmod +x /root/setup.sh",
     creates => '/root/setup.sh',
+    path    => '/bin:/usr/bin',
   }
 
-  # Exec: install DirectAdmin 
+  # Exec: install DirectAdmin
   exec { 'directadmin-installer':
     cwd     => '/root',
     command => "echo 2.0 > /root/.custombuild && /root/setup.sh ${directadmin::clientid} ${directadmin::licenseid} ${::fqdn} ${directadmin_interface}",
     require => [ Exec['directadmin-download-installer'], Class['directadmin::custombuild'], ],
     creates => '/usr/local/directadmin/conf/directadmin.conf',
     timeout => 0,
+    path    => '/sbin:/usr/sbin:/bin:/usr/bin',
   }
 }
