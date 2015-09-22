@@ -57,6 +57,17 @@ class directadmin::install inherits directadmin {
     before  => Exec['directadmin-download-installer'],
   }
 
+  # Using DirectAdmin on a server behind NAT (example: 192.168.0.x)? Touch /root/.lan.
+  # When this file contains '1', setup.sh will skip --bind-address in wget.
+  # For more information about running DirectAdmin behind NAT: http://www.directadmin.com/lan.shtml
+  if $directadmin::lan {
+    file { '/root/.lan':
+      ensure  => file,
+      content => '1',
+      before  => Exec['directadmin-installer'],
+    }
+  }
+
   # Exec: make sure the required packages are installed automatically. This provides support for all operating systems.
   exec { 'directadmin-set-pre-install':
     cwd     => '/root',
