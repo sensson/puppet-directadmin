@@ -6,7 +6,7 @@ define directadmin::config::set($value = '') {
   file_line { "config-set-${title}-${value}":
     path  => '/usr/local/directadmin/conf/directadmin.conf',
     line  => "${title}=${value}",
-    match => "${title}\=",
+    match => "^${title}=",
     require => Class['directadmin::install'],
     notify  => Service['directadmin'],
   }
@@ -18,7 +18,7 @@ define directadmin::config::set($value = '') {
     file_line { "config-set-admin-user-${title}-${value}":
       path  => '/usr/local/directadmin/data/users/admin/user.conf',
       line  => "${title}=${value}",
-      match => "${title}\=",
+      match => "^${title}=",
       require => Class['directadmin::install'],
     }
 
@@ -26,7 +26,7 @@ define directadmin::config::set($value = '') {
     file_line { "config-set-admin-reseller-${title}-${value}":
       path  => '/usr/local/directadmin/data/users/admin/reseller.conf',
       line  => "${title}=${value}",
-      match => "${title}\=",
+      match => "^${title}=",
       require => Class['directadmin::install'],
     }
   }
