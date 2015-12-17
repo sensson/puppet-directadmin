@@ -9,7 +9,7 @@
 #
 
 class directadmin::modsecurity(
-  $modsecurity_version = '2.8.0',
+  $modsecurity_version = '2.9.0',
   $secauditlogtype = 'Concurrent',
   $secauditlog = '/var/log/modsec_audit.log',
   $secauditlogstoragedir = '',
