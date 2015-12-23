@@ -1,5 +1,5 @@
-require 'puppet/provider/directadmin'
-Puppet::Type.type(:directadmin_user_package).provide :directadmin, :parent => Puppet::Provider::Directadmin do  
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'directadmin'))
+Puppet::Type.type(:directadmin_user_package).provide(:directadmin, :parent => Puppet::Provider::DirectAdmin) do
   def convert_package
     # We don't have support for personal DNS yet.
     package = {}

@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 
 # This class currently has some duplicate code in it, this needs cleaning up.
-class Puppet::Provider::Directadmin < Puppet::Provider
+class Puppet::Provider::DirectAdmin < Puppet::Provider
   initvars
   
   class Error < ::StandardError

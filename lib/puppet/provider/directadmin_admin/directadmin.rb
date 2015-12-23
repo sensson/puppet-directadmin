@@ -1,6 +1,6 @@
-require 'puppet/provider/directadmin'
-Puppet::Type.type(:directadmin_admin).provide :directadmin, :parent => Puppet::Provider::Directadmin do  
-  def create   
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'directadmin'))
+Puppet::Type.type(:directadmin_admin).provide(:directadmin, :parent => Puppet::Provider::DirectAdmin) do
+  def create
     connect
     self.class.query('CMD_API_ACCOUNT_ADMIN',
       :action     => "create",
