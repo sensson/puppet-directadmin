@@ -1,6 +1,7 @@
 # directadmin::mail
 class directadmin::mail(
   $mail_limit = 200,
+  $mail_limit_per_address = 0,
   $sa_updates = true,
   $php_imap = false,
   $default_webmail = 'roundcube',
@@ -28,6 +29,22 @@ class directadmin::mail(
     mode    => '0644',
     content => 0,
     notify  => Service['exim'],
+    require => Exec['directadmin-installer'],
+  } ->
+  # File change: /etc/virtual/user_limit
+  file { '/etc/virtual/user_limit':
+    ensure => present,
+    owner => mail,
+    group => mail,
+
+    # this file is set to 755 by directadmin by default
+    mode => '0755',
+    
+    # maximum e-mails per day, per e-mail address.
+    # it needs quotes to ensure it gets read correctly, Hiera will 
+    # set as an integer for example
+    content => "${mail_limit_per_address}",
+    notify => Service['exim'],
     require => Exec['directadmin-installer'],
   }
 
