@@ -57,9 +57,14 @@ directadmin::config::options:
     value: 30
   enable_ssl_sni:
     value: 1
-  #If you run DirectAdmin behind a NAT, set lan_ip option:
-  #lan_ip:
-  #  value: 192.168.0.2
+```
+
+If you want to run DirectAdmin behind a NAT you can use the `lan_ip` option and set
+it to the internal IP address, for example:
+
+```
+lan_ip:
+  value: 192.168.0.2
 ```
 
 Changing a DirectAdmin configuration option will automatically trigger a reload of
@@ -217,7 +222,7 @@ has finished.
 It only manages the `email` and `password` property. Changing them will update the user.
 
 ```
-direactadmin_admin { "username":
+directadmin_admin { "username":
 	ensure			=> present,
 	password		=> "password",
 	email 			=> "your@email.address"
@@ -281,7 +286,7 @@ It only manages the `email` and `password` property. Changing them will update t
 directadmin_reseller { "resellername":
 	ensure 			=> present,
 	password 		=> "password",
-	email 			=> "your@email.address"
+	email 			=> "your@email.address",
 	domain 			=> "yourdomain.com",
 	ip_address		=> "shared",
 	user_package 	=> "an_existing_package",
