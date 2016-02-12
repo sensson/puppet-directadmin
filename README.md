@@ -231,6 +231,7 @@ directadmin_admin { "username":
 	api_password 	=> "api_password",
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
+	api_ssl			=> false (default),
 }
 ```
 
@@ -275,6 +276,7 @@ directadmin_reseller_package { "newpackage2":
 	api_password 	=> "api_password",
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
+	api_ssl			=> false (default),
 }
 ```
 
@@ -295,6 +297,7 @@ directadmin_reseller { "resellername":
 	api_password 	=> "api_password",
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
+	api_ssl			=> false (default),
 }
 ```
 
@@ -335,5 +338,6 @@ directadmin_user_package { "bronze":
 	api_password 	=> "api_password",
 	api_hostname	=> "localhost (default)",
 	api_port		=> "2222 (default)",
+	api_ssl			=> false (default),
 }
 ```
