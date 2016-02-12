@@ -8,10 +8,17 @@ class Puppet::Provider::DirectAdmin < Puppet::Provider
   class Error < ::StandardError
   end
   
-  def self.connect(username, password, hostname, port)
+  def self.connect(username, password, hostname, port, ssl = false)
     @auth_username = username
     @auth_password = password
     @http = Net::HTTP.new(hostname, port)
+
+    if ssl == true
+      @http.use_ssl = true
+      if hostname == 'localhost'
+        @http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+      end
+    end
   end
   
   # We need to allow post requests to the API for certain actions such as removing accounts.

@@ -37,11 +37,11 @@ Puppet::Type.type(:directadmin_admin).provide(:directadmin, :parent => Puppet::P
   # -----
   
   def connect
-    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port])
+    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port], resource[:api_ssl])
   end
   
   def connect_as_user
-    self.class.connect(resource[:api_username] + "|" + resource[:username], resource[:api_password], resource[:api_hostname], resource[:api_port])
+    self.class.connect(resource[:api_username] + "|" + resource[:username], resource[:api_password], resource[:api_hostname], resource[:api_port], resource[:api_ssl])
   end
   
   # -----

@@ -88,11 +88,11 @@ Puppet::Type.type(:directadmin_reseller_package).provide(:directadmin, :parent =
   # -----
   
   def connect
-    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port])
+    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port], resource[:api_ssl])
   end
   
   def connect_as_user
-    self.class.connect(resource[:api_username] + "|" + resource[:username], resource[:api_password], resource[:api_hostname], resource[:api_port])
+    self.class.connect(resource[:api_username] + "|" + resource[:username], resource[:api_password], resource[:api_hostname], resource[:api_port], resource[:api_ssl])
   end
   
   def get_package_values

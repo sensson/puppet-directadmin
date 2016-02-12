@@ -40,7 +40,7 @@ Puppet::Type.type(:directadmin_reseller).provide(:directadmin, :parent => Puppet
   # -----
   
   def connect
-    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port])
+    self.class.connect(resource[:api_username], resource[:api_password], resource[:api_hostname], resource[:api_port], resource[:api_ssl])
   end
   
   # -----

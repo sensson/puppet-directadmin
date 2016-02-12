@@ -201,4 +201,10 @@ Puppet::Type.newtype(:directadmin_user_package) do
     desc 'The API\'s endpoint\'s port.'
     defaultto "2222"
   end
+
+  newparam(:api_ssl) do
+    desc 'Connect to the API over SSL.'
+    defaultto :false
+  end
+
 end

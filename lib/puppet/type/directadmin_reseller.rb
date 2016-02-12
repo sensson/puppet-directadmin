@@ -92,4 +92,9 @@ Puppet::Type.newtype(:directadmin_reseller) do
     defaultto "2222"
   end
 
+  newparam(:api_ssl) do
+    desc 'Connect to the API over SSL.'
+    defaultto :false
+  end
+
 end
