@@ -5,6 +5,7 @@ class directadmin::mail(
   $sa_updates = true,
   $php_imap = false,
   $default_webmail = 'roundcube',
+  $default_rbl = false,
 ) {
   # File change: set up our e-mail limit
   file { '/etc/virtual/limit':
@@ -119,5 +120,13 @@ class directadmin::mail(
     hour    => 7,
     minute  => 5,
     require => Exec['directadmin-installer'],
+  }
+
+  # Set up RBL checks by default
+  if $default_rbl == true {
+    file { '/etc/virtual/use_rbl_domains':
+      ensure => 'link',
+      target => '/etc/virtual/domains'
+    }
   }
 }

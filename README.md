@@ -146,10 +146,17 @@ class has fairly basic support implemented for it. You can set an outgoing limit
 on a daily basis. Setting `php_imap` to true will compile support for imap into PHP.
 
 You can set the `default_webmail` client as well. This will change all the required settings for you
-and defaults to Roundcube.
+and defaults to Roundcube. If you set `default_rbl` to true it will create a symlink linking 
+/etc/virtual/use_rbl_domains to /etc/virtual/domains. 
 
 ```
-class { 'directadmin::mail': mail_limit => 200, sa_updates => true, php_imap => true, default_webmail => 'roundcube' }
+class { 'directadmin::mail':
+    mail_limit => 200,
+    sa_updates => true,
+    php_imap => true,
+    default_webmail => 'roundcube',
+    default_rbl => false,
+}
 ```
 
 If you need to set custom rules for SpamAssassin you can do so with the following function:
