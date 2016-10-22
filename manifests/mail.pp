@@ -71,10 +71,17 @@ class directadmin::mail(
     # Make sure libc-client2007e-dev is installed on Debian and Ubuntu
     if $::operatingsystem =~ /^(Debian|Ubuntu)$/ {
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
+        if versioncmp($::puppetversion, '3.6.0') >= 0 {
+            # There is a really weird bug in puppet-lint that errors out when
+            # a space is added between Package and {.
+            Package{
+                allow_virtual => true,
+            }
+        }
+
         package { 'libc-client2007e-dev':
-          ensure        => installed,
-          allow_virtual => true,
-          before        => Exec['directadmin-download-php-imap'],
+          ensure => installed,
+          before => Exec['directadmin-download-php-imap'],
         }
       }
     }
