@@ -2,7 +2,15 @@
 class directadmin::resources {
   # Create additional admin users and manage the primary one
   if $directadmin::admin_password != '' {
-    user { 'admin': password => $directadmin::admin_password, }
+    if $::osfamily == 'Debian' {
+        # usermod expects the password parameter to be crypted
+        include stdlib
+        $plaintext_password = $directadmin::admin_password
+        $salt = fqdn_rand(4294967295, 'directadmin_admin_password')
+        user { 'admin': password => pw_hash($plaintext_password, 'SHA-512', $salt), }
+      } else {
+        user { 'admin': password => $directadmin::admin_password, }
+      }
   }
   $directadmin_admins = hiera('directadmin::admins', {})
   create_resources(directadmin_admin, $directadmin_admins)
