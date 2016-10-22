@@ -31,6 +31,7 @@ describe 'directadmin::config::set', :type => :define do
           }}
 
           it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_directadmin__config__set('foobar') }
           it { is_expected.to contain_file_line('config-set-foobar-bar').with_line('foobar=bar') }
           it { is_expected.to contain_file_line('config-set-foobar-bar').that_requires('Class[directadmin::install]') }
           it { is_expected.to contain_file_line('config-set-foobar-bar').that_notifies('Service[directadmin]') }
@@ -46,6 +47,7 @@ describe 'directadmin::config::set', :type => :define do
           }}
 
           it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_directadmin__config__set('ns1') }
           it { is_expected.to contain_file_line('config-set-ns1-bar') }
           it { is_expected.to contain_file_line('config-set-ns1-bar').that_requires('Class[directadmin::install]') }
           it { is_expected.to contain_file_line('config-set-admin-reseller-ns1-bar').with_line('ns1=bar')}

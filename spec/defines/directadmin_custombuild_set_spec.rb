@@ -27,6 +27,7 @@ describe 'directadmin::custombuild::set', :type => :define do
           }}
 
           it { is_expected.to compile.with_all_deps }
+          it { is_expected.to contain_directadmin__custombuild__set('foobar') }
           it { is_expected.to contain_exec('custombuild-set-foobar-bar').with_command('/usr/local/directadmin/custombuild/build set foobar bar') }
           it { is_expected.to contain_exec('custombuild-set-foobar-bar').with_unless('grep /usr/local/directadmin/custombuild/options.conf -e \'^foobar=bar\'') }
           it { is_expected.to contain_exec('custombuild-set-foobar-bar').that_requires('Class[directadmin::custombuild]') }
