@@ -2,7 +2,7 @@
 	"name": "sensson-directadmin",
 	"version": "0.2.4",
 	"author": "sensson",
-	"license": "Licensed under (Apache 2.0)",
+	"license": "Apache-2.0",
 	"summary": "A module to install and configure DirectAdmin",
 	"source": "https://github.com/sensson/sensson-directadmin",
 	"project_page": "https://github.com/sensson/sensson-directadmin",

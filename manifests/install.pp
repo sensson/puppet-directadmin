@@ -7,21 +7,13 @@ class directadmin::install inherits directadmin {
   } else {
     $directadmin_interface = $directadmin::interface
   }
-  
+
   # The installation URL and a set of base packages that we need to install
   $directadmin_installer = 'http://www.directadmin.com/setup.sh'
 
   # The following will install all required packages for SpamAssassin on CentOS servers.
   if $::osfamily == 'RedHat' {
-    if $::operatingsystemmajrelease == 5 {
-      $directadmin_packages = [
-            'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
-            'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
-            'perl-IO-Socket-SSL', 'perl-Mail-DKIM', 'perl-DBI', 'perl-Encode-Detect',
-            'perl-HTML-Parser', 'perl-HTML-Tagset','perl-libwww-perl',
-          ]
-    }
-    if $::operatingsystemmajrelease >= 6 {
+    if versioncmp($::operatingsystemmajrelease, '6') >= 0 {
       $directadmin_packages = [
             'perl-ExtUtils-MakeMaker', 'perl-Digest-SHA', 'perl-Net-DNS', 'perl-NetAddr-IP',
             'perl-Archive-Tar', 'perl-IO-Zlib', 'perl-Mail-SPF', 'perl-IO-Socket-INET6',
@@ -30,15 +22,15 @@ class directadmin::install inherits directadmin {
             'perl-ExtUtils-Embed',
           ]
     }
-    if $::operatingsystemmajrelease >= 7 {
+    if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
       $additional_packages = [
           'perl-Sys-Syslog',
         ]
 
       # Package: required packages for SpamAssassin on CentOS 7+
       package { $additional_packages:
-          ensure  => installed,
-          before  => Exec['directadmin-download-installer'],
+          ensure => installed,
+          before => Exec['directadmin-download-installer'],
       }
     }
   }
@@ -53,8 +45,8 @@ class directadmin::install inherits directadmin {
 
   # Package: required packages for SpamAssassin etc.
   package { $directadmin_packages:
-    ensure  => installed,
-    before  => Exec['directadmin-download-installer'],
+    ensure => installed,
+    before => Exec['directadmin-download-installer'],
   }
 
   # Using DirectAdmin on a server behind NAT (example: 192.168.0.x)? Touch /root/.lan.

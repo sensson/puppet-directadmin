@@ -6,14 +6,14 @@ define directadmin::user_ssl($domain = $title, $user = '', $sslcert = '', $sslke
     notify  => Service['httpd'],
     require => Exec['directadmin-installer'],
   }
-    
+
   # Our CA
   file { "/usr/local/directadmin/data/users/${user}/domains/${domain}.cacert":
     content => template($sslca),
     notify  => Service['httpd'],
     require => Exec['directadmin-installer'],
   }
-    
+
   # Our key
   file { "/usr/local/directadmin/data/users/${user}/domains/${domain}.key":
     content => template($sslkey),

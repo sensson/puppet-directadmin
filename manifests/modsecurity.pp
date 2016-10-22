@@ -27,8 +27,8 @@ class directadmin::modsecurity(
 
   # Package: needed for mod_security
   package { 'expat-devel':
-    ensure  => installed,
-    name    => $expat_devel,
+    ensure => installed,
+    name   => $expat_devel,
   }
 
   # Exec: install mod security. Our check is based on a custom file. This allows us to do scheduled upgrades.
@@ -41,24 +41,24 @@ class directadmin::modsecurity(
     notify  => Service['httpd'],
     path    => '/bin:/usr/bin',
   }
-  
+
   # File: ensure the mod security config file exists
   file { '/etc/httpd/conf/modsecurity.conf':
-    content   => template('directadmin/modsecurity/modsecurity.conf.erb'),
-    notify    => Service['httpd'],
-    require   => Exec['modsecurity-install'],
+    content => template('directadmin/modsecurity/modsecurity.conf.erb'),
+    notify  => Service['httpd'],
+    require => Exec['modsecurity-install'],
   } ->
   file { '/etc/httpd/conf/unicode.mapping':
-    content   => template('directadmin/modsecurity/unicode.mapping.erb'),
-    notify    => Service['httpd'],
-    require   => Exec['modsecurity-install'],
+    content => template('directadmin/modsecurity/unicode.mapping.erb'),
+    notify  => Service['httpd'],
+    require => Exec['modsecurity-install'],
   } ->
   file { '/etc/httpd/conf/extra/modsec-wordpress.conf':
-    content   => template('directadmin/modsecurity/modsec-wordpress.conf.erb'),
-    notify    => Service['httpd'],
-    require   => Exec['modsecurity-install'],
+    content => template('directadmin/modsecurity/modsec-wordpress.conf.erb'),
+    notify  => Service['httpd'],
+    require => Exec['modsecurity-install'],
   }
-  
+
   # File_line: enable libxml2
   file_line { 'enable-libxml2':
     ensure  => present,
@@ -67,7 +67,7 @@ class directadmin::modsecurity(
     notify  => Service['httpd'],
     require => [ Exec['modsecurity-install'], File['/etc/httpd/conf/modsecurity.conf'], File['/etc/httpd/conf/unicode.mapping'] ],
   }
-  
+
   # File_line: enable mod security
   file_line { 'enable-modsecurity':
     ensure  => present,
@@ -76,7 +76,7 @@ class directadmin::modsecurity(
     notify  => Service['httpd'],
     require => [ Exec['modsecurity-install'], File['/etc/httpd/conf/modsecurity.conf'], File['/etc/httpd/conf/unicode.mapping'] ],
   }
-  
+
   # File_line: include the basic mod security config & and one to supress wordpress brute force attacks
   file_line { 'enable-modsecurity-configuration':
     ensure  => present,
@@ -92,17 +92,17 @@ class directadmin::modsecurity(
     notify  => Service['httpd'],
     require => [ Exec['modsecurity-install'], File['/etc/httpd/conf/modsecurity.conf'], File['/etc/httpd/conf/unicode.mapping'] ],
   }
-  
+
   # If we set SecAuditLogStorageDir variable create the right directory and set up some
   # additional scripts to ensure we're rotating logs properly.
   if $secauditlogstoragedir != '' {
     # File: create a separate log directory for concurrent log files
     file { '/var/log/modsec':
-      ensure    => directory,
-      mode      => '1733',
-      require   => Exec['modsecurity-install'],
+      ensure  => directory,
+      mode    => '1733',
+      require => Exec['modsecurity-install'],
     }
-    
+
     # File: we concat our log files from the above directory, this is done when rotating logs
     file { '/usr/bin/modsec-logconcat.pl':
       owner   => root,
@@ -112,7 +112,7 @@ class directadmin::modsecurity(
       require => Exec['modsecurity-install'],
     }
   }
-  
+
   # File: set up log rotation
   file { '/etc/logrotate.d/modsecurity':
     owner   => root,

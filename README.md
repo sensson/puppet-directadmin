@@ -1,5 +1,7 @@
 # directadmin
 
+[![Build Status](https://travis-ci.org/sensson/puppet-directadmin.svg?branch=master)](https://travis-ci.org/sensson/puppet-directadmin) [![Puppet Forge](https://img.shields.io/puppetforge/v/sensson/directadmin.svg?maxAge=2592000?style=plastic)](https://forge.puppet.com/sensson/directadmin)
+
 This module is used to configure DirectAdmin.
 
 It can manage the installation of DirectAdmin, admin and reseller users and their 

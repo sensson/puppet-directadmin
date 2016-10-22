@@ -16,7 +16,7 @@ class directadmin::mail(
 
     # maximum e-mails per day, it needs quotes to ensure it gets
     # read correctly, Hiera will set as an integer for example
-    content => "${mail_limit}",
+    content => sprintf('%s', $mail_limit),
 
     # restart on change
     notify  => Service['exim'],
@@ -28,40 +28,40 @@ class directadmin::mail(
     owner   => mail,
     group   => mail,
     mode    => '0644',
-    content => 0,
+    content => sprintf('%s', '0'),
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   } ->
   # File change: /etc/virtual/user_limit
   file { '/etc/virtual/user_limit':
-    ensure => present,
-    owner => mail,
-    group => mail,
+    ensure  => present,
+    owner   => mail,
+    group   => mail,
 
     # this file is set to 755 by directadmin by default
-    mode => '0755',
-    
+    mode    => '0755',
+
     # maximum e-mails per day, per e-mail address.
     # it needs quotes to ensure it gets read correctly, Hiera will 
     # set as an integer for example
-    content => "${mail_limit_per_address}",
-    notify => Service['exim'],
+    content => sprintf('%s', $mail_limit_per_address),
+    notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
 
   # File: set the default webmail client
   file { '/var/www/html/webmail':
-    ensure => link,
-    target => "/var/www/html/${default_webmail}",
+    ensure  => link,
+    target  => "/var/www/html/${default_webmail}",
     require => Exec['directadmin-installer'],
   }
   # File_line: set the default /webmail alias
   file_line { 'httpd-alias-default-webmail':
-    ensure => present,
-    path => '/etc/httpd/conf/extra/httpd-alias.conf',
-    line => "Alias /webmail /var/www/html/${default_webmail}",
-    match => 'Alias \/webmail',
-    notify => Service['httpd'],
+    ensure  => present,
+    path    => '/etc/httpd/conf/extra/httpd-alias.conf',
+    line    => "Alias /webmail /var/www/html/${default_webmail}",
+    match   => 'Alias \/webmail',
+    notify  => Service['httpd'],
     require => Exec['directadmin-installer'],
   }
   directadmin::config::set { 'webmail_link': value => $default_webmail, }
@@ -70,11 +70,11 @@ class directadmin::mail(
   if $php_imap == true {
     # Make sure libc-client2007e-dev is installed on Debian and Ubuntu
     if $::operatingsystem =~ /^(Debian|Ubuntu)$/ {
-      if $::operatingsystemmajrelease >= 7 {
+      if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
         package { 'libc-client2007e-dev':
-          ensure => installed,
+          ensure        => installed,
           allow_virtual => true,
-          before => Exec['directadmin-download-php-imap'],
+          before        => Exec['directadmin-download-php-imap'],
         }
       }
     }
@@ -98,9 +98,9 @@ class directadmin::mail(
   # File_line: make sure the primary hostname is set in exim.conf
   # as we have seen some issues with CentOS 7 here.
   file_line { 'exim-set-primary-hostname':
-    path  => '/etc/exim.conf',
-    line  => "primary_hostname = ${::fqdn}",
-    match => '^(# )?primary_hostname =',
+    path    => '/etc/exim.conf',
+    line    => "primary_hostname = ${::fqdn}",
+    match   => '^(# )?primary_hostname =',
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
@@ -111,7 +111,7 @@ class directadmin::mail(
   } else {
     $sa_cron = 'absent'
   }
-  
+
   # Cron: daily update of SpamAssassin rules
   cron { 'exim-sa-update':
     ensure  => $sa_cron,
@@ -126,7 +126,7 @@ class directadmin::mail(
   if $default_rbl == true {
     file { '/etc/virtual/use_rbl_domains':
       ensure => 'link',
-      target => '/etc/virtual/domains'
+      target => '/etc/virtual/domains',
     }
   }
 }
