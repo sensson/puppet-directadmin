@@ -4,7 +4,7 @@ class directadmin(
   $licenseid              = undef,
   $interface              = undef,
   $auto_update            = false,
-  $admin_password         = '',
+  $admin_password         = undef,
   $lan                    = false,
   $mail_limit             = $::directadmin::params::mail_limit,
   $mail_limit_per_address = $::directadmin::params::mail_limit_per_address,

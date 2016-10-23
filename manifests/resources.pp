@@ -1,7 +1,7 @@
 # directadmin::resources
 class directadmin::resources {
   # Create additional admin users and manage the primary one
-  if $directadmin::admin_password != '' {
+  if $directadmin::admin_password != undef {
     user { 'admin': password => $directadmin::admin_password, }
   }
   $directadmin_admins = hiera('directadmin::admins', {})
