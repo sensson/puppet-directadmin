@@ -50,4 +50,13 @@ class directadmin::services {
     hasstatus  => $has_status,
     require    => Exec['directadmin-installer'],
   }
+
+  # Service: mysqld, our database server
+  service { 'mysqld':
+    ensure     => running,
+    enable     => true,
+    hasrestart => true,
+    hasstatus  => $has_status,
+    require    => Exec['directadmin-installer'],
+  }
 }

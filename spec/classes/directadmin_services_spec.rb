@@ -25,6 +25,7 @@ describe 'directadmin::services', :type => :class do
           it { is_expected.to contain_service('dovecot').with_hasstatus(hasstatus) }
           it { is_expected.to contain_service('httpd').with_hasstatus(hasstatus) }
           it { is_expected.to contain_service('named').with_hasstatus(hasstatus) }
+          it { is_expected.to contain_service('mysqld').with_hasstatus(hasstatus) }
         end
 
       end
