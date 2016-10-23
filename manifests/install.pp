@@ -24,7 +24,7 @@ class directadmin::install inherits directadmin {
     }
     if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
       $additional_packages = [
-          'perl-Sys-Syslog',
+          'perl-Sys-Syslog', 'perl-DB_File',
         ]
 
       # Package: required packages for SpamAssassin on CentOS 7+

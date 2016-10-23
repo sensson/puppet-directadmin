@@ -47,6 +47,7 @@ describe 'directadmin::install', :type => :class do
             end
             if facts[:operatingsystemmajrelease].to_i >= 7
               it { is_expected.to contain_package('perl-Sys-Syslog') }
+              it { is_expected.to contain_package('perl-DB_File') }
             end
           when 'Debian'
             it { is_expected.to contain_package('libarchive-any-perl') }
