@@ -6,6 +6,12 @@ class directadmin(
   $auto_update = false,
   $admin_password = '',
   $lan = false,
+  $mail_limit = 200,
+  $mail_limit_per_address = 0,
+  $sa_updates = true,
+  $php_imap = false,
+  $default_webmail = 'roundcube',
+  $default_rbl = false,
 ) {
   # Run some sanity checks
   if !is_numeric($directadmin::clientid) { fail("The client ID ${directadmin::clientid} is not a number.") }
@@ -17,6 +23,7 @@ class directadmin(
   class { '::directadmin::update': }
   class { '::directadmin::services': }
   class { '::directadmin::resources': }
+  class { '::directadmin::mail': }
 
   # Set all required options for custombuild
   $custombuild_options = hiera('directadmin::custombuild::options', {})

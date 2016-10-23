@@ -43,12 +43,9 @@ describe 'directadmin::mail', :type => :class do
 
         context "directadmin::mail class with php imap" do
           let(:pre_condition) do
-            'class { "::directadmin": clientid => 1234, licenseid => 123456 }'
+            'class { "::directadmin": clientid => 1234, licenseid => 123456, php_imap => true, }'
           end
 
-          let(:params) {{
-            :php_imap => true
-          }}
 
           it { is_expected.to contain_exec('directadmin-download-php-imap') }
           it { is_expected.to contain_exec('directadmin-install-php-imap') }
@@ -62,12 +59,8 @@ describe 'directadmin::mail', :type => :class do
 
         context "directadmin::mail class with rbl management" do
           let(:pre_condition) do
-            'class { "::directadmin": clientid => 1234, licenseid => 123456 }'
+            'class { "::directadmin": clientid => 1234, licenseid => 123456, default_rbl => true, }'
           end
-
-          let(:params) {{
-            :default_rbl => true
-          }}
 
           it { is_expected.to contain_file('/etc/virtual/use_rbl_domains').with_ensure('link') }
         end

@@ -1,12 +1,5 @@
 # directadmin::mail
-class directadmin::mail(
-  $mail_limit = 200,
-  $mail_limit_per_address = 0,
-  $sa_updates = true,
-  $php_imap = false,
-  $default_webmail = 'roundcube',
-  $default_rbl = false,
-) {
+class directadmin::mail {
   # File change: set up our e-mail limit
   file { '/etc/virtual/limit':
     ensure  => present,
@@ -16,7 +9,7 @@ class directadmin::mail(
 
     # maximum e-mails per day, it needs quotes to ensure it gets
     # read correctly, Hiera will set as an integer for example
-    content => sprintf('%s', $mail_limit),
+    content => sprintf('%s', $::directadmin::mail_limit),
 
     # restart on change
     notify  => Service['exim'],
@@ -44,7 +37,7 @@ class directadmin::mail(
     # maximum e-mails per day, per e-mail address.
     # it needs quotes to ensure it gets read correctly, Hiera will 
     # set as an integer for example
-    content => sprintf('%s', $mail_limit_per_address),
+    content => sprintf('%s', $::directadmin::mail_limit_per_address),
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
   }
@@ -52,22 +45,22 @@ class directadmin::mail(
   # File: set the default webmail client
   file { '/var/www/html/webmail':
     ensure  => link,
-    target  => "/var/www/html/${default_webmail}",
+    target  => "/var/www/html/${::directadmin::default_webmail}",
     require => Exec['directadmin-installer'],
   }
   # File_line: set the default /webmail alias
   file_line { 'httpd-alias-default-webmail':
     ensure  => present,
     path    => '/etc/httpd/conf/extra/httpd-alias.conf',
-    line    => "Alias /webmail /var/www/html/${default_webmail}",
+    line    => "Alias /webmail /var/www/html/${::directadmin::default_webmail}",
     match   => 'Alias \/webmail',
     notify  => Service['httpd'],
     require => Exec['directadmin-installer'],
   }
-  directadmin::config::set { 'webmail_link': value => $default_webmail, }
+  directadmin::config::set { 'webmail_link': value => $::directadmin::default_webmail, }
 
   # Install support for imap in php if required
-  if $php_imap == true {
+  if $::directadmin::php_imap == true {
     # Make sure libc-client2007e-dev is installed on Debian and Ubuntu
     if $::operatingsystem =~ /^(Debian|Ubuntu)$/ {
       if versioncmp($::operatingsystemmajrelease, '7') >= 0 {
@@ -113,7 +106,7 @@ class directadmin::mail(
   }
 
   # SpamAssassin cron jobs
-  if $sa_updates == true {
+  if $::directadmin::sa_updates == true {
     $sa_cron = 'present'
   } else {
     $sa_cron = 'absent'
@@ -130,7 +123,7 @@ class directadmin::mail(
   }
 
   # Set up RBL checks by default
-  if $default_rbl == true {
+  if $::directadmin::default_rbl == true {
     file { '/etc/virtual/use_rbl_domains':
       ensure => 'link',
       target => '/etc/virtual/domains',
