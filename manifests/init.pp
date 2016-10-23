@@ -1,18 +1,19 @@
 # directadmin
 class directadmin(
-  $clientid = 'none',
-  $licenseid = 'none',
-  $interface = 'none',
-  $auto_update = false,
-  $admin_password = '',
-  $lan = false,
-  $mail_limit = 200,
-  $mail_limit_per_address = 0,
-  $sa_updates = true,
-  $php_imap = false,
-  $default_webmail = 'roundcube',
-  $default_rbl = false,
-) {
+  $clientid               = undef,
+  $licenseid              = undef,
+  $interface              = undef,
+  $auto_update            = false,
+  $admin_password         = '',
+  $lan                    = false,
+  $mail_limit             = $::directadmin::params::mail_limit,
+  $mail_limit_per_address = $::directadmin::params::mail_limit_per_address,
+  $sa_updates             = true,
+  $php_imap               = false,
+  $default_webmail        = $::directadmin::params::default_webmail,
+  $default_rbl            = false,
+  $installer_location     = $::directadmin::params::installer_location
+) inherits directadmin::params {
   # Run some sanity checks
   if !is_numeric($directadmin::clientid) { fail("The client ID ${directadmin::clientid} is not a number.") }
   if !is_numeric($directadmin::licenseid) { fail("The license ID ${directadmin::licenseid} is not a number.") }

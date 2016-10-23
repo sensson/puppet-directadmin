@@ -1,15 +1,12 @@
 # directadmin::install
 class directadmin::install inherits directadmin {
   # Decide which interface to use
-  if $directadmin::interface == 'none' {
+  if $directadmin::interface == undef {
     if has_interface_with('venet0') { $directadmin_interface = 'venet0:0' }
     else { $directadmin_interface = 'eth0'}
   } else {
     $directadmin_interface = $directadmin::interface
   }
-
-  # The installation URL and a set of base packages that we need to install
-  $directadmin_installer = 'http://www.directadmin.com/setup.sh'
 
   # The following will install all required packages for SpamAssassin on CentOS servers.
   if $::osfamily == 'RedHat' {
@@ -72,7 +69,7 @@ class directadmin::install inherits directadmin {
   # Exec: set up the installation files
   exec { 'directadmin-download-installer':
     cwd     => '/root',
-    command => "wget -O setup.sh --no-check-certificate ${directadmin_installer} && chmod +x /root/setup.sh",
+    command => "wget -O setup.sh --no-check-certificate ${::directadmin::installer_location} && chmod +x /root/setup.sh",
     creates => '/root/setup.sh',
     path    => '/bin:/usr/bin',
   }
