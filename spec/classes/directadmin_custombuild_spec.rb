@@ -16,6 +16,7 @@ describe 'directadmin::custombuild', :type => :class do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_exec('install-custombuild').with_command('rm -rf custombuild* && wget --no-check-certificate -O custombuild.tar.gz %s && tar xvzf custombuild.tar.gz' % [ custombuild_installer ])}
           it { is_expected.to contain_exec('install-custombuild').with_require('File[/usr/local/directadmin]') }
+          it { is_expected.to contain_file('/usr/local/directadmin/custombuild/custom/').with_ensure('directory') }
         end
       end
     end 

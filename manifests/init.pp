@@ -12,7 +12,10 @@ class directadmin(
   $php_imap               = false,
   $default_webmail        = $::directadmin::params::default_webmail,
   $default_rbl            = false,
-  $installer_location     = $::directadmin::params::installer_location
+  $installer_location     = $::directadmin::params::installer_location,
+  $modsecurity            = $::directadmin::params::modsecurity,
+  $modsecurity_ruleset    = $::directadmin::params::modsecurity_ruleset,
+  $modsecurity_wordpress  = $::directadmin::params::modsecurity_wordpress,
 ) inherits directadmin::params {
   # Run some sanity checks
   if !is_numeric($directadmin::clientid) { fail("The client ID ${directadmin::clientid} is not a number.") }
@@ -25,6 +28,7 @@ class directadmin(
   class { '::directadmin::services': }
   class { '::directadmin::resources': }
   class { '::directadmin::mail': }
+  class { '::directadmin::modsecurity': }
 
   # Set all required options for custombuild
   $custombuild_options = hiera('directadmin::custombuild::options', {})

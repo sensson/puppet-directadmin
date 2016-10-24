@@ -23,6 +23,7 @@ describe 'directadmin', :type => :class do
           it { is_expected.to contain_class('directadmin::resources') }
           it { is_expected.to contain_class('directadmin::mail') }
           it { is_expected.to contain_class('directadmin::params') }
+          it { is_expected.to contain_class('directadmin::modsecurity') }
 
           # Directories. Referenced in directadmin::directories
           # Filename: directadmin_custombuild_directories.rb

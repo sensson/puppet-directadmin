@@ -8,4 +8,9 @@ class directadmin::params {
   $default_webmail        = 'roundcube'
   $mail_limit             = 200
   $mail_limit_per_address = 0
+
+  # ModSecurity
+  $modsecurity            = false
+  $modsecurity_ruleset    = false
+  $modsecurity_wordpress  = false
 }

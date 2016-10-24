@@ -8,4 +8,11 @@ class directadmin::custombuild inherits directadmin {
     require => File['/usr/local/directadmin'],
     path    => '/bin:/usr/bin',
   }
+
+  # Set up a custom directory that can be used by other modules
+  file { [ '/usr/local/directadmin/custombuild/custom/' ]:
+    ensure  => directory,
+    require => [ Exec['install-custombuild'], ],
+    before  => [ Exec['directadmin-installer'], ],
+  }
 }
