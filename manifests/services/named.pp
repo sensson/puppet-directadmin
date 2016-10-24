@@ -17,6 +17,7 @@ class directadmin::services::named(
     require     => Exec['directadmin-installer'],
     refreshonly => true,
     unless      => 'grep -c named /usr/local/directadmin/data/task.queue',
+    path        => '/bin:/usr/bin',
   }
 
   if $allow_transfer != '' {
