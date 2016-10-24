@@ -25,16 +25,17 @@ describe 'directadmin::modsecurity', :type => :class do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_directadmin__custombuild__set('modsecurity') }
           it { is_expected.to contain_exec('custombuild-set-modsecurity-yes') }
+          it { is_expected.to contain_exec('custombuild-set-modsecurity_ruleset-no') }
         end
 
         context "directadmin::modsecurity class with modsecurity and modsecurity ruleset enabled" do
           let(:pre_condition) do
-            'class { "::directadmin": clientid => 1234, licenseid => 123456, modsecurity => true, modsecurity_ruleset => true }'
+            'class { "::directadmin": clientid => 1234, licenseid => 123456, modsecurity => true, modsecurity_ruleset => comodo }'
           end
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_directadmin__custombuild__set('modsecurity_ruleset') }
-          it { is_expected.to contain_exec('custombuild-set-modsecurity_ruleset-yes') }
+          it { is_expected.to contain_exec('custombuild-set-modsecurity_ruleset-comodo') }
         end
 
         context "directadmin::modsecurity class with modsecurity and modsecurity wordpress enabled" do

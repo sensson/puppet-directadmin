@@ -3,9 +3,11 @@ class directadmin::modsecurity inherits directadmin {
   if $::directadmin::modsecurity {
     directadmin::custombuild::set { 'modsecurity': value => 'yes' }
 
-    # This enables the modsecurity ruleset from DirectAdmin
+    # This enables the modsecurity ruleset from DirectAdmin, it's disabled by us by default
     if $::directadmin::modsecurity_ruleset {
-      directadmin::custombuild::set { 'modsecurity_ruleset': value => 'yes' }
+      directadmin::custombuild::set { 'modsecurity_ruleset': value => $::directadmin::modsecurity_ruleset }
+    } else {
+      directadmin::custombuild::set { 'modsecurity_ruleset': value => 'no' }
     }
 
     # This enables our custom wordpress ruleset
