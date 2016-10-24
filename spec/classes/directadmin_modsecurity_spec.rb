@@ -45,7 +45,7 @@ describe 'directadmin::modsecurity', :type => :class do
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_file('/usr/local/directadmin/custombuild/custom/modsecurity/').with_ensure('directory') }
           it { is_expected.to contain_file('/usr/local/directadmin/custombuild/custom/modsecurity/conf/').with_ensure('directory') }
-          it { is_expected.to contain_file('/usr/local/directadmin/custombuild/modsecurity/conf/wordpress.conf') }
+          it { is_expected.to contain_file('/usr/local/directadmin/custombuild/custom/modsecurity/conf/wordpress.conf') }
         end
 
       end
