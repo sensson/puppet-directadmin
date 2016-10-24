@@ -13,8 +13,8 @@ describe 'directadmin::modsecurity', :type => :class do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.not_to contain_directadmin__config__set('modsecurity') }
-          it { is_expected.not_to contain_directadmin__config__set('modsecurity_ruleset') }
+          it { is_expected.not_to contain_directadmin__custombuild__set('modsecurity') }
+          it { is_expected.not_to contain_directadmin__custombuild__set('modsecurity_ruleset') }
         end
 
         context "directadmin::modsecurity class with modsecurity enabled" do
@@ -23,8 +23,8 @@ describe 'directadmin::modsecurity', :type => :class do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_directadmin__config__set('modsecurity') }
-          it { is_expected.to contain_file_line('config-set-modsecurity-yes') }
+          it { is_expected.to contain_directadmin__custombuild__set('modsecurity') }
+          it { is_expected.to contain_exec('custombuild-set-modsecurity-yes') }
         end
 
         context "directadmin::modsecurity class with modsecurity and modsecurity ruleset enabled" do
@@ -33,8 +33,8 @@ describe 'directadmin::modsecurity', :type => :class do
           end
 
           it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_directadmin__config__set('modsecurity_ruleset') }
-          it { is_expected.to contain_file_line('config-set-modsecurity_ruleset-yes') }
+          it { is_expected.to contain_directadmin__custombuild__set('modsecurity_ruleset') }
+          it { is_expected.to contain_exec('custombuild-set-modsecurity_ruleset-yes') }
         end
 
         context "directadmin::modsecurity class with modsecurity and modsecurity wordpress enabled" do
