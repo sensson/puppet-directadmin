@@ -8,7 +8,7 @@ class directadmin::mail {
     mode    => '0644',
 
     # maximum e-mails per day, it needs quotes to ensure it gets
-    # read correctly, Hiera will set as an integer for example
+    # read correctly, Hiera will set it as an integer for example
     content => sprintf('%s', $::directadmin::mail_limit),
 
     # restart on change
@@ -36,7 +36,7 @@ class directadmin::mail {
 
     # maximum e-mails per day, per e-mail address.
     # it needs quotes to ensure it gets read correctly, Hiera will 
-    # set as an integer for example
+    # set it as an integer for example
     content => sprintf('%s', $::directadmin::mail_limit_per_address),
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],

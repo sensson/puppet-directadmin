@@ -8,7 +8,7 @@ class directadmin(
   $lan                    = false,
   $mail_limit             = $::directadmin::params::mail_limit,
   $mail_limit_per_address = $::directadmin::params::mail_limit_per_address,
-  $sa_updates             = true,
+  $sa_updates             = false,
   $php_imap               = false,
   $default_webmail        = $::directadmin::params::default_webmail,
   $default_rbl            = false,

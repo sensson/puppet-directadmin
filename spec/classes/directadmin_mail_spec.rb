@@ -29,7 +29,7 @@ describe 'directadmin::mail', :type => :class do
           it { is_expected.to contain_directadmin__config__set('webmail_link') }
           it { is_expected.to contain_file_line('config-set-webmail_link-roundcube') }
 
-          it { is_expected.to contain_cron('exim-sa-update').with_ensure('present') }
+          it { is_expected.to contain_cron('exim-sa-update').with_ensure('absent') }
           it { is_expected.to contain_file_line('exim-set-primary-hostname').with_line('primary_hostname = %s' % [facts[:fqdn]]) }
 
           # By default we don't manage rbls
@@ -55,6 +55,14 @@ describe 'directadmin::mail', :type => :class do
               it { is_expected.to contain_package('libc-client2007e-dev') }
             end
           end
+        end
+
+        context "directadmin::mail class with spamassassin updates" do
+          let(:pre_condition) do
+            'class { "::directadmin": clientid => 1234, licenseid => 123456, sa_updates => true, }'
+          end
+
+          it { is_expected.to contain_cron('exim-sa-update').with_ensure('present') }
         end
 
         context "directadmin::mail class with rbl management" do
