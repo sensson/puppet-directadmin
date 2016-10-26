@@ -5,9 +5,7 @@
 This module is used to configure DirectAdmin.
 
 It can manage the installation of DirectAdmin, admin and reseller users and their 
-packages. It is not meant to replace the API or other functionality from DirectAdmin
-and we will never include support for managing users or other user based functions
-such as managing databases and e-mail addresses. 
+packages. It is not meant to replace the API or other functionality from DirectAdmin.
 
 Pull requests and bug reports are always appreciated.
 
@@ -22,9 +20,6 @@ this module on an existing server, certain options may be overwritten.
 If you don't specify an `interface` it will default to venet0:0 on OpenVZ containers
 and eth0 on other systems. You can override this setting or not set it at all.
 
-If you set `auto_update` to true it will attempt to update all packages that are
-installed through Custombuild 2.0.
-
 Set `lan` to true when using [DirectAdmin behind a NAT](http://www.directadmin.com/lan.shtml).
 
 ```
@@ -32,13 +27,127 @@ class { 'directadmin':
 	clientid       => '1000',
 	licenseid      => '10000',
 	interface      => 'eth0',
-	auto_update    => true,
-	admin_password => 's0m3p4ssw0rd',
+	admin_password => '$1$xyz$4SuXM/NcNyHdr1j2DppL5/',
 	lan            => false,
 }
 ```
 
-#### Configuration
+## Reference
+
+### Parameters
+
+#### directadmin
+
+We provide a number of configuration options to change particular settings
+or to override our defaults when required.
+
+##### `clientid`
+
+This is the client id for your DirectAdmin license. Required. Defaults to undef.
+
+##### `licenseid`
+
+This is the licence id for your DirectAdmin license. Required. Defaults to undef.
+
+##### `interface`
+
+Change the interface for your license. Defaults to eth0 or venet0:0 on OpenVZ.
+
+##### `auto_update`
+
+Set this to true if you want Puppet to check for custombuild updates. Defaults to false.
+
+##### `admin_password`
+
+Manage the admin user password. Recommended if you want to manage admin users, reseller
+packages and resellers. This needs to be a hash. Defaults to undef.
+
+##### `lan`
+
+Set `lan` to true when using [DirectAdmin behind a NAT](http://www.directadmin.com/lan.shtml).
+
+##### `mail_limit`
+
+Set a maximum outgoing mail limit per user account. Defaults to 200.
+
+##### `mail_limit_per_address`
+
+Set a maximum outgoing mail limit per e-mail address. Defaults to 0 (no limit).
+
+##### `sa_updates`
+
+Set this to true if you want to enable daily SpamAssassin updates. Defaults to false.
+
+##### `php_imap`
+
+Set this to true if you want to enable the imap extension in PHP. Defaults to false.
+
+##### `default_webmail`
+
+Set the default webmail client. Defaults to roundcube.
+
+##### `default_rbl`
+
+This creates a symlink that makes sure all e-mail domains are checked agains the RBL's
+in Exim. Defaults to false.
+
+##### `installer_location`
+
+Override the DirectAdmin installer location. Defaults to http://www.directadmin.com/setup.sh.
+
+##### `modsecurity`
+
+Enable ModSecurity. Defaults to false.
+
+##### `modsecurity_ruleset`
+
+Enable a ModSecurity ruleset. Valid options comodo/owasp/false. Defaults to false.
+
+##### `modsecurity_wordpress`
+
+Enable a WordPress brute force prevention ruleset. Defaults to false.
+
+#### directadmin::services::named
+
+We currently only support managing small portions of named. We have implemented two features:
+
+* Managing also-notify, allow-transfer and notify settings
+* Managing named rewrites (in case you are managing custom DNS templates)
+
+You can enable `also-notify` and `allow-transfer` by passing the relevant parameters to this class.
+
+```
+class directadmin::services::named { also-notify => '1.2.3.4', allow-transfer => '1.2.3.4' }
+```
+
+Aside from that this module allows you to rewrite named, e.g. what's described here:
+http://help.directadmin.com/item.php?id=141
+
+You can do this with:
+
+```
+notify => Exec['rewrite-named-config'],
+```
+
+##### `allow_transfer`
+
+Set up an IP address to allow zone transfers. Defaults to ''.
+
+##### `also_notify`
+
+Also notify this IP address when zone changes occur. Defaults to ''.
+
+##### `ensure_transfer`
+
+Make sure this configuration exists or not. Defaults to 'present'.
+
+##### `ensure_notify`
+
+Make sure this configuration exists or not. Defaults to 'present.'
+
+### Defines
+
+#### directadmin::config::set
 
 This module allows you to configure DirectAdmin. We support all DirectAdmin 
 configuration settings. Be careful though, we don't check if the settings are
@@ -61,18 +170,11 @@ directadmin::config::options:
     value: 1
 ```
 
-If you want to run DirectAdmin behind a NAT you can use the `lan_ip` option and set
-it to the internal IP address, for example:
+##### `value`
 
-```
-lan_ip:
-  value: 192.168.0.2
-```
+Set the value of the configuration item you want to change. Defaults to ''
 
-Changing a DirectAdmin configuration option will automatically trigger a reload of
-the DirectAdmin service.
-
-### Custombuild 2.0
+#### directadmin::custombuild::set
 
 Custombuild plays an important role in DirectAdmin's configurations and settings of
 the software it uses to provide its services. Custombuild can be managed with this
@@ -118,48 +220,11 @@ exec { 'rebuild-php':
 }
 ```
 
-### Managing services
+##### `value`
 
-We currently only support managing small portions of named. We have implemented two features:
+Set the value of the configuration item you want to change. Defaults to ''
 
-* Managing also-notify, allow-transfer and notify settings
-* Managing named rewrites (in case you are managing custom DNS templates)
-
-You can enable `also-notify` and `allow-transfer` by passing the relevant parameters to this class.
-
-```
-class directadmin::services::named { also-notify => '1.2.3.4', allow-transfer => '1.2.3.4' }
-```
-
-Aside from that this module allows you to rewrite named, e.g. what's described here:
-http://help.directadmin.com/item.php?id=141
-
-You can do this with:
-
-```
-notify => Exec['rewrite-named-config'],
-```
-
-### Managing e-mail settings
-
-DirectAdmin has a few features that relate to how e-mails are handled on the server. This
-class has fairly basic support implemented for it. You can set an outgoing limit with
-`mail_limit` and if you set `sa_updates` to true it will set a cron job that runs sa-update
-on a daily basis. Setting `php_imap` to true will compile support for imap into PHP.
-
-You can set the `default_webmail` client as well. This will change all the required settings for you
-and defaults to Roundcube. If you set `default_rbl` to true it will create a symlink linking 
-/etc/virtual/use_rbl_domains to /etc/virtual/domains. 
-
-```
-class { 'directadmin::mail':
-    mail_limit => 200,
-    sa_updates => true,
-    php_imap => true,
-    default_webmail => 'roundcube',
-    default_rbl => false,
-}
-```
+#### directadmin::mail::spamassassin::score
 
 If you need to set custom rules for SpamAssassin you can do so with the following function:
 
@@ -167,41 +232,9 @@ If you need to set custom rules for SpamAssassin you can do so with the followin
 directadmin::mail::spamassassin::score { 'URIBL_BLOCKED': score => 3, }
 ```
 
-### Managing SSL
+##### `score`
 
-We have not explicitly enabled support for SSL in this module, though we find it useful to
-be able to set SSL certificates for particular users. The following function allows you to do
-this. Keep in mind though that `sslcert`, `sslkey` and `sslca` require a path. You need to put the
-SSL certificate there yourself.
-
-```
-directadmin::user_ssl { 'domain.com': user => 'username', sslcert => '', sslkey => '', sslca => '' }
-```
-
-### ModSecurity
-
-BETA WARNING: This is a beta implementation of mod security. We're still digging up bugs and 
-although there are several cases where it does work, it is a known bug that DirectAdmin together
-with mod_ruid2 and mod_security can cause a variety of issues, including redirect loops. 
-
-Changing `modsecurity_version` will automatically update ModSecurity. It does not provide an
-option to downgrade yet.
-
-Be careful when using this function. 
-
-```
-class { 'directadmin::modsecurity': modsecurity_version => '2.8.0', secauditlogtype => 'Concurrent', secauditlog => '/var/log/modsec_audit.log', secauditlogstoragedir => '', secruleengine => 'On' }
-```
-
-### Roles and profiles
-
-In roles and profiles it sometimes helps to know when DirectAdmin is installed before trying
-anything else. The installer is called directadmin-installer. You can use the following to chain
-events if needed.
-
-```
-require => Exec['directadmin-installer'],
-```
+Set the score for a specific SpamAssassin check. Defaults to 1.
 
 ### Resources
 
@@ -350,3 +383,50 @@ directadmin_user_package { "bronze":
 	api_ssl			=> false (default),
 }
 ```
+
+## Limitations
+
+This module has been tested on:
+
+* CentOS 6
+* CentOS 7
+* Debian 7
+
+## Development
+
+We strongly believe in the power of open source. This module is our way
+of saying thanks.
+
+This module is tested against the Ruby versions from Puppet's support
+matrix. Please make sure you have a supported version of Ruby installed.
+
+If you want to contribute please:
+
+1. Fork the repository.
+2. Run tests. It's always good to know that you can start with a clean slate.
+3. Add a test for your change.
+4. Make sure it passes.
+5. Push to your fork and submit a pull request.
+
+We can only accept pull requests with passing tests.
+
+To install all of its dependencies please run:
+
+```
+bundle install --path vendor/bundle --without development
+```
+
+### Running unit tests
+
+```
+bundle exec rake test
+```
+
+### Running acceptance tests
+
+The unit tests only verify if the code runs, not if it does exactly
+what we want on a real machine. For this we use Beaker. Beaker will
+start a new virtual machine (using Vagrant) and runs a series of
+simple tests.
+
+Beaker is currently not supported due to licensing constraints.
