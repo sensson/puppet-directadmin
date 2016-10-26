@@ -213,9 +213,9 @@ want to do this, you can. For example by using something similar as the code bel
 
 ```
 exec { 'rebuild-php':
-    command => '/usr/local/directadmin/custombuild/build php n',
-    subscribe => Directadmin::Custombuild::Set['php1_release'],
-    require => Class['directadmin::install'],
+    command     => '/usr/local/directadmin/custombuild/build php n',
+    subscribe   => Directadmin::Custombuild::Set['php1_release'],
+    require     => Class['directadmin::install'],
     refreshonly => true,
 }
 ```
