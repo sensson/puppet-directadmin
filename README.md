@@ -236,6 +236,26 @@ directadmin::mail::spamassassin::score { 'URIBL_BLOCKED': score => 3, }
 
 Set the score for a specific SpamAssassin check. Defaults to 1.
 
+#### directadmin::mail::spamassassin::config
+
+This allows you to create larger configuration files with specific settings. These configuration
+files will be created in /etc/mail/spamassassin. It is possible to specify a prefix with the
+`order` parameter as SpamAssassin reads these files in alphabetical order.
+
+The filename will be `$order-$title.cf` and cannot be changed.
+
+##### `ensure`
+
+Valid values: present, absent. Defaults to 'present'.
+
+##### `content`
+
+Set the content of the configuration file. Defaults to ''.
+
+##### `order`
+
+Set the order in which the files should be read. Numeric values are recommended. Defaults to '99'.
+
 ### Resources
 
 DirectAdmin provides an API to automate certain actions. This module implements a few resources
