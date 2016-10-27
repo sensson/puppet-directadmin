@@ -92,6 +92,7 @@ class directadmin::mail {
       require => Exec['directadmin-installer'],
       timeout => 0,
       path    => '/bin:/usr/bin',
+      notify  => Service['httpd'],
     }
   }
 
