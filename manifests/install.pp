@@ -77,7 +77,7 @@ class directadmin::install inherits directadmin {
   # Exec: install DirectAdmin
   exec { 'directadmin-installer':
     cwd     => '/root',
-    command => "echo 2.0 > /root/.custombuild && /root/setup.sh ${directadmin::clientid} ${directadmin::licenseid} ${::fqdn} ${directadmin_interface}",
+    command => "echo 2.0 > /root/.custombuild && /root/setup.sh ${::directadmin::clientid} ${::directadmin::licenseid} ${::fqdn} ${directadmin_interface}",
     require => [ Exec['directadmin-download-installer'], Class['directadmin::custombuild'], ],
     creates => '/usr/local/directadmin/conf/directadmin.conf',
     timeout => 0,
