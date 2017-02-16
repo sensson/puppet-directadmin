@@ -1,7 +1,7 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
 group :test do
-  gem "rake"
+  gem 'rake', '<= 11.3.0'
   gem "puppet", ENV['PUPPET_GEM_VERSION'] || '~> 4.7.0'
   gem "rspec", '< 3.2.0'
   gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
@@ -10,7 +10,7 @@ group :test do
   gem "rspec-puppet-facts"
   gem 'rubocop', '0.33.0'
   gem 'simplecov', '>= 0.11.0'
-  gem 'simplecov-console'
+  gem 'simplecov-console', '<= 0.3.1'
   gem 'json_pure', '<= 2.0.1' if RUBY_VERSION < '2.0.0'
   gem 'public_suffix', '<= 1.4.6' if RUBY_VERSION < '2.0.0'
 
