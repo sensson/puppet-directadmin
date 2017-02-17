@@ -269,6 +269,18 @@ Valid values are e.g. 'exim.strings.conf.custom'. Do not specify a path. Default
 
 Set the value for the setting you're changing. Defaults to 'undef'.
 
+#### directadmin::mail::exim::virtual
+
+This allows you to set values in /etc/virtual. You can manage 'skip_rbl_hosts_ip' for example.
+
+##### `file`
+
+Valid values are e.g. 'skip_rbl_hosts_ip'. Do not specify a path. Defaults to 'undef'.
+
+##### `value`
+
+Set the value. Defaults to 'undef'.
+
 ### Resources
 
 DirectAdmin provides an API to automate certain actions. This module implements a few resources
