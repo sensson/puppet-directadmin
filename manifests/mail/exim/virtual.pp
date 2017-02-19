@@ -1,4 +1,4 @@
-# directadmin::mail::exim::skip_rbl
+# directadmin::mail::exim::virtual
 define directadmin::mail::exim::virtual(
   $value = undef,
   $file  = undef,
