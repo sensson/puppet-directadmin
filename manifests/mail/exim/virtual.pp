@@ -11,7 +11,13 @@ define directadmin::mail::exim::virtual(
   if $value == undef { fail('value must be set.') }
 
   # Manage /etc/virtual/${file}
-  ensure_resource('file', "/etc/virtual/${file}", { 'ensure' => 'present', 'mode' => '0644'} )
+  ensure_resource('file', "/etc/virtual/${file}", {
+    'ensure'  => 'present',
+    'mode'    => '0755',
+    'owner'   => 'mail',
+    'group'   => 'mail',
+    'require' => 'Exec[directadmin-installer]',
+  })
 
   file_line { "exim-set-${file}-${value}":
     path    => "/etc/virtual/${file}",

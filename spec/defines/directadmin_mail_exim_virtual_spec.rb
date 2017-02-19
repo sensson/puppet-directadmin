@@ -49,6 +49,7 @@ describe 'directadmin::mail::exim::virtual', :type => :define do
 
           it { is_expected.to compile.with_all_deps }
           it { is_expected.to contain_file('/etc/virtual/skip_rbl_hosts_ip') }
+          it { is_expected.to contain_file('/etc/virtual/skip_rbl_hosts_ip').with_require('Exec[directadmin-installer]') }
           it { is_expected.to contain_file_line('exim-set-skip_rbl_hosts_ip-127.0.0.1') }
           it { is_expected.to contain_file_line('exim-set-skip_rbl_hosts_ip-127.0.0.1').with_path('/etc/virtual/skip_rbl_hosts_ip') }
           it { is_expected.to contain_file_line('exim-set-skip_rbl_hosts_ip-127.0.0.1').with_line('127.0.0.1') }
