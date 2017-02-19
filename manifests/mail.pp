@@ -126,8 +126,9 @@ class directadmin::mail {
   # Set up RBL checks by default
   if $::directadmin::default_rbl == true {
     file { '/etc/virtual/use_rbl_domains':
-      ensure => 'link',
-      target => '/etc/virtual/domains',
+      ensure  => 'link',
+      target  => '/etc/virtual/domains',
+      require => Exec['directadmin-installer'],
     }
   }
 }
