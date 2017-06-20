@@ -1,5 +1,10 @@
 fixtures:
-  repositories:
-    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+  forge_modules:
+    stdlib:
+      repo: "puppetlabs/stdlib"
+      ref: "4.6.0"
+    wget:
+      repo: "maestrodev/wget"
+      ref: "1.7.3"
   symlinks:
     directadmin: "#{source_dir}"

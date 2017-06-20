@@ -1,5 +1,7 @@
 # directadmin::mail
 class directadmin::mail {
+  include wget
+
   # File change: set up our e-mail limit
   file { '/etc/virtual/limit':
     ensure  => present,
@@ -74,18 +76,20 @@ class directadmin::mail {
 
         package { 'libc-client2007e-dev':
           ensure => installed,
-          before => Exec['directadmin-download-php-imap'],
+          before => Wget::Fetch['directadmin-download-php-imap'],
         }
       }
     }
-    exec { 'directadmin-download-php-imap':
-      cwd     => '/root',
-      command => 'wget -O /root/imap_php.sh files.directadmin.com/services/all/imap_php.sh && chmod +x /root/imap_php.sh',
-      creates => '/root/imap_php.sh',
-      require => Exec['directadmin-installer'],
-      path    => '/bin:/usr/bin',
+
+    wget::fetch { 'directadmin-download-php-imap':
+      source      => 'http://files.directadmin.com/services/all/imap_php.sh',
+      destination => '/root/',
+      cache_dir   => '/usr/local/directadmin/custombuild/',
+      require     => Exec['directadmin-installer'],
+      before      => Exec['directadmin-install-php-imap'],
     }
-    -> exec { 'directadmin-install-php-imap':
+
+    exec { 'directadmin-install-php-imap':
       cwd     => '/root',
       command => '/root/imap_php.sh',
       unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
