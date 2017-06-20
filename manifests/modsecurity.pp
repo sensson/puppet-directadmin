@@ -15,8 +15,8 @@ class directadmin::modsecurity inherits directadmin {
       file { [ '/usr/local/directadmin/custombuild/custom/modsecurity/', '/usr/local/directadmin/custombuild/custom/modsecurity/conf/' ]:
         ensure  => directory,
         require => File['/usr/local/directadmin/custombuild/custom/'],
-      } ->
-      file { '/usr/local/directadmin/custombuild/custom/modsecurity/conf/wordpress.conf':
+      }
+      -> file { '/usr/local/directadmin/custombuild/custom/modsecurity/conf/wordpress.conf':
         ensure  => present,
         content => template('directadmin/modsecurity/modsec-wordpress.conf.erb'),
       }

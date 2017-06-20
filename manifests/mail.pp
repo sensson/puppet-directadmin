@@ -14,9 +14,9 @@ class directadmin::mail {
     # restart on change
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
-  } ->
+  }
   # File change: /etc/virtual/limit_unknown
-  file { '/etc/virtual/limit_unknown':
+  -> file { '/etc/virtual/limit_unknown':
     ensure  => present,
     owner   => mail,
     group   => mail,
@@ -24,9 +24,9 @@ class directadmin::mail {
     content => sprintf('%s', '0'),
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
-  } ->
+  }
   # File change: /etc/virtual/user_limit
-  file { '/etc/virtual/user_limit':
+  -> file { '/etc/virtual/user_limit':
     ensure  => present,
     owner   => mail,
     group   => mail,
@@ -84,8 +84,8 @@ class directadmin::mail {
       creates => '/root/imap_php.sh',
       require => Exec['directadmin-installer'],
       path    => '/bin:/usr/bin',
-    } ->
-    exec { 'directadmin-install-php-imap':
+    }
+    -> exec { 'directadmin-install-php-imap':
       cwd     => '/root',
       command => '/root/imap_php.sh',
       unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
