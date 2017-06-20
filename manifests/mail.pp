@@ -83,8 +83,9 @@ class directadmin::mail {
 
     wget::fetch { 'directadmin-download-php-imap':
       source      => 'http://files.directadmin.com/services/all/imap_php.sh',
-      destination => '/root/',
-      cache_dir   => '/usr/local/directadmin/custombuild/',
+      destination => '/root/imap_php.sh',
+      cache_dir   => '/usr/local/directadmin/custombuild',
+      mode        => '0755',
       require     => Exec['directadmin-installer'],
       before      => Exec['directadmin-install-php-imap'],
     }
