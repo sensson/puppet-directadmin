@@ -14,9 +14,9 @@ class directadmin::mail {
     # restart on change
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
-  } ->
+  }
   # File change: /etc/virtual/limit_unknown
-  file { '/etc/virtual/limit_unknown':
+  -> file { '/etc/virtual/limit_unknown':
     ensure  => present,
     owner   => mail,
     group   => mail,
@@ -24,9 +24,9 @@ class directadmin::mail {
     content => sprintf('%s', '0'),
     notify  => Service['exim'],
     require => Exec['directadmin-installer'],
-  } ->
+  }
   # File change: /etc/virtual/user_limit
-  file { '/etc/virtual/user_limit':
+  -> file { '/etc/virtual/user_limit':
     ensure  => present,
     owner   => mail,
     group   => mail,
@@ -35,7 +35,7 @@ class directadmin::mail {
     mode    => '0755',
 
     # maximum e-mails per day, per e-mail address.
-    # it needs quotes to ensure it gets read correctly, Hiera will 
+    # it needs quotes to ensure it gets read correctly, Hiera will
     # set it as an integer for example
     content => sprintf('%s', $::directadmin::mail_limit_per_address),
     notify  => Service['exim'],
@@ -84,12 +84,12 @@ class directadmin::mail {
       creates => '/root/imap_php.sh',
       require => Exec['directadmin-installer'],
       path    => '/bin:/usr/bin',
-    } ->
+    }
     exec { 'directadmin-install-php-imap':
       cwd     => '/root',
       command => '/root/imap_php.sh',
       unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
-      require => Exec['directadmin-installer'],
+      require => [ Exec['directadmin-installer'], Exec['directadmin-download-php-imap'] ],
       timeout => 0,
       path    => '/bin:/usr/bin',
       notify  => Service['httpd'],

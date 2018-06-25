@@ -4,9 +4,9 @@
 	"author": "sensson",
 	"license": "Apache-2.0",
 	"summary": "A module to install and configure DirectAdmin",
-	"source": "https://github.com/sensson/sensson-directadmin",
-	"project_page": "https://github.com/sensson/sensson-directadmin",
-	"issues_url": "https://github.com/sensson/sensson-directadmin/issues",
+	"source": "https://github.com/sensson/puppet-directadmin",
+	"project_page": "https://github.com/sensson/puppet-directadmin",
+	"issues_url": "https://github.com/sensson/puppet-directadmin/issues",
 	"tags": [ "directadmin" ],
 	"operatingsystem_support": [
 		{ "operatingsystem":"CentOS", "operatingsystemrelease":[ "6.0", "7.0" ] },
@@ -14,7 +14,10 @@
 		{ "operatingsystem":"Ubuntu", "operatingsystemrelease":[ "14.04" ] },
 		{ "operatingsystem":"Debian", "operatingsystemrelease":[ "7.0" ] }
 	],
+	"requirements": [
+    { "name": "puppet", "version_requirement": ">= 4.7.0 < 6.0.0" }
+  ],
 	"dependencies": [
-		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2" }
+		{ "name": "puppetlabs/stdlib", "version_requirement": ">=4.3.2 < 5.0.0" }
 	]
 }
