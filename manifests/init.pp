@@ -31,11 +31,11 @@ class directadmin(
   class { '::directadmin::modsecurity': }
 
   # Set all required options for custombuild
-  $custombuild_options = hiera('directadmin::custombuild::options', {})
+  $custombuild_options = lookup('directadmin::custombuild::options', Hash, 'deep', {})
   create_resources(directadmin::custombuild::set, $custombuild_options)
 
   # Set all required configuration settings
-  $directadmin_config = hiera('directadmin::config::options', {})
+  $directadmin_config = lookup('directadmin::config::options', Hash, 'deep', {})
   create_resources(directadmin::config::set, $directadmin_config)
 
   # Set up the chain that defines when to run which resources in order to support Hiera. This is done in two steps:
