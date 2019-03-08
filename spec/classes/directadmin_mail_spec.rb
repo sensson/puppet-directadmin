@@ -74,6 +74,6 @@ describe 'directadmin::mail', :type => :class do
           it { is_expected.to contain_file('/etc/virtual/use_rbl_domains').with_require('Exec[directadmin-installer]') }
         end
       end
-    end 
+    end
   end
 end
