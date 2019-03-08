@@ -76,7 +76,7 @@ class directadmin::mail {
 
         package { 'libc-client2007e-dev':
           ensure => installed,
-          before => Wget::Fetch['directadmin-download-php-imap'],
+          before => Exec['directadmin-download-php-imap'],
         }
       }
     }
