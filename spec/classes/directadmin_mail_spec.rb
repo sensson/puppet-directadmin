@@ -36,7 +36,7 @@ describe 'directadmin::mail', :type => :class do
           it { is_expected.not_to contain_file('/etc/virtual/use_rbl_domains') }
 
           # By default we don't install php-imap
-          it { is_expected.not_to contain_wget__fetch('directadmin-download-php-imap') }
+          it { is_expected.not_to contain_exec('directadmin-download-php-imap') }
           it { is_expected.not_to contain_exec('directadmin-install-php-imap') }
           it { is_expected.not_to contain_exec('libc-client2007e-dev') }
         end
@@ -47,7 +47,7 @@ describe 'directadmin::mail', :type => :class do
           end
 
 
-          it { is_expected.to contain_wget__fetch('directadmin-download-php-imap') }
+          it { is_expected.to contain_exec('directadmin-download-php-imap') }
           it { is_expected.to contain_exec('directadmin-install-php-imap') }
 
           if facts[:operatingsystem] =~ /^(Debian|Ubuntu)$/
@@ -74,6 +74,6 @@ describe 'directadmin::mail', :type => :class do
           it { is_expected.to contain_file('/etc/virtual/use_rbl_domains').with_require('Exec[directadmin-installer]') }
         end
       end
-    end 
+    end
   end
 end

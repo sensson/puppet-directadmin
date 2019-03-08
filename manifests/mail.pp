@@ -37,7 +37,7 @@ class directadmin::mail {
     mode    => '0755',
 
     # maximum e-mails per day, per e-mail address.
-    # it needs quotes to ensure it gets read correctly, Hiera will 
+    # it needs quotes to ensure it gets read correctly, Hiera will
     # set it as an integer for example
     content => sprintf('%s', $::directadmin::mail_limit_per_address),
     notify  => Service['exim'],
@@ -80,21 +80,18 @@ class directadmin::mail {
         }
       }
     }
-
-    wget::fetch { 'directadmin-download-php-imap':
-      source      => 'http://files.directadmin.com/services/all/imap_php.sh',
-      destination => '/root/imap_php.sh',
-      cache_dir   => '/usr/local/directadmin/custombuild',
-      mode        => '0755',
-      require     => Exec['directadmin-installer'],
-      before      => Exec['directadmin-install-php-imap'],
+    exec { 'directadmin-download-php-imap':
+      cwd     => '/root',
+      command => 'wget -O /root/imap_php.sh files.directadmin.com/services/all/imap_php.sh && chmod +x /root/imap_php.sh',
+      creates => '/root/imap_php.sh',
+      require => Exec['directadmin-installer'],
+      path    => '/bin:/usr/bin',
     }
-
     exec { 'directadmin-install-php-imap':
       cwd     => '/root',
       command => '/root/imap_php.sh',
       unless  => 'php -i | grep -i c-client | wc -l | grep -c 1',
-      require => Exec['directadmin-installer'],
+      require => [ Exec['directadmin-installer'], Exec['directadmin-download-php-imap'] ],
       timeout => 0,
       path    => '/bin:/usr/bin',
       notify  => Service['httpd'],
