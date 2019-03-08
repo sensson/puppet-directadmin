@@ -1,6 +1,5 @@
 # directadmin::mail
 class directadmin::mail {
-  include ::wget
 
   # File change: set up our e-mail limit
   file { '/etc/virtual/limit':
