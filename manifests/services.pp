@@ -50,7 +50,7 @@ class directadmin::services {
     require    => Exec['directadmin-installer'],
   }
 
-  if $dovecot {
+  if $named {
     # Service: named, our dns server
     service { 'named':
       ensure     => running,
